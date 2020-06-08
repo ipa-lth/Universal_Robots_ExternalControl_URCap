@@ -46,6 +46,8 @@ public class ExternalControlInstallationNodeContribution implements Installation
   private final KeyboardInputFactory keyboardFactory;
   private int instanceCounter = 0;
 
+  private PitascCaller pitascCaller;
+
   public ExternalControlInstallationNodeContribution(InstallationAPIProvider apiProvider,
       ExternalControlInstallationNodeView view, DataModel model) {
     this.keyboardFactory =
@@ -68,6 +70,9 @@ public class ExternalControlInstallationNodeContribution implements Installation
   public void generateScript(ScriptWriter writer) {
     RequestProgram sender = new RequestProgram(getHostIP(), getCustomPort());
     urScriptProgram = sender.sendCommand("request_program\n");
+
+    pitascCaller = new PitascCaller("127.0.0.1", "40404");
+    pitascCaller.appendInstallationLines(writer);
   }
 
   // IP helper functions
@@ -175,5 +180,9 @@ public class ExternalControlInstallationNodeContribution implements Installation
   
   public int IncrementInstanceCounter() {
     return this.instanceCounter++;
+  }
+
+  public PitascCaller getPitascCaller() {
+	  return pitascCaller;
   }
 }

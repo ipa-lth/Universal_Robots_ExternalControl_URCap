@@ -79,6 +79,7 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
 
   @Override
   public void generateScript(ScriptWriter writer) {
+    getInstallation().getPitascCaller().appendNodeLines(writer);
     String urScriptProgram = getInstallation().getUrScriptProgram();
     String uniqueFunName = "fun_" + getInstallation().IncrementInstanceCounter() + "()";
     writer.appendLine("def " + uniqueFunName + ":");
