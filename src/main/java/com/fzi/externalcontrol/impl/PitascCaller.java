@@ -24,8 +24,6 @@
 //----------------------------------------------------------------------
 package com.fzi.externalcontrol.impl;
 
-import javax.xml.ws.handler.PortInfo;
-
 import com.ur.urcap.api.domain.script.ScriptWriter;
 
 public class PitascCaller {
@@ -48,18 +46,18 @@ public class PitascCaller {
    * Append URScript line to the ScriptCommand
    * @param command is the line to be appended
    */
-  public void appendInstallationLines(ScriptWriter writer) {
+  public void appendInstallationLines(ScriptWriter writer, String file) {
     System.out.println("-> Hello pitasc installation appendix generator");
 
     //TODO: Disable this call with some checkbox
     writer.assign(XMLRPC_VARIABLE, "rpc_factory(\"xmlrpc\", \"http://"+hostIp+":"+portNr+"/RPC2\")");
     // Call "load_file" only once at startup. Alternative: do another urcap to load the stuff and remove installation tab content
-    writer.appendLine(XMLRPC_VARIABLE + ".load_file(\"my_file.xml\")");
+    writer.appendLine(XMLRPC_VARIABLE + ".load_file(\"" + file + "\")");
   }
 
-  public void appendNodeLines(ScriptWriter writer) {
+  public void appendNodeLines(ScriptWriter writer, String app) {
     System.out.println("-> Hello pitasc node appendix generator");
-    writer.assign("rpcxml_resp", XMLRPC_VARIABLE + ".start_app(\"my_first_app\")");
+    writer.assign("rpcxml_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\")");
   }
 
 }

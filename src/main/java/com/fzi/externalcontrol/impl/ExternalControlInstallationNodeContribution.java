@@ -47,7 +47,12 @@ public class ExternalControlInstallationNodeContribution implements Installation
   private int instanceCounter = 0;
 
   private PitascCaller pitascCaller;
+  private static final String PITASC_PORT_NR = "pitasc_port";
+  private static final String PITASC_DEFAULT_PORT = "40404";
+  private static final String PITASC_FILE = "pitasc_file";
+  private static final String PITASC_DEFAULT_FILE = "default.xml";
 
+ 
   public ExternalControlInstallationNodeContribution(InstallationAPIProvider apiProvider,
       ExternalControlInstallationNodeView view, DataModel model) {
     this.keyboardFactory =
@@ -71,8 +76,8 @@ public class ExternalControlInstallationNodeContribution implements Installation
     RequestProgram sender = new RequestProgram(getHostIP(), getCustomPort());
     urScriptProgram = sender.sendCommand("request_program\n");
 
-    pitascCaller = new PitascCaller("127.0.0.1", "40404");
-    pitascCaller.appendInstallationLines(writer);
+    pitascCaller = new PitascCaller(getHostIP(), getPitascPort());
+    pitascCaller.appendInstallationLines(writer, getPitascFile());
   }
 
   // IP helper functions
@@ -174,6 +179,72 @@ public class ExternalControlInstallationNodeContribution implements Installation
     };
   }
 
+  // port helper functions
+  public void setPitascPort(String port) {
+    if ("".equals(port)) {
+      resetToDefaultPitascPort();
+    } else {
+      model.set(PITASC_PORT_NR, port);
+    }
+  }
+
+  public String getPitascPort() {
+    return model.get(PITASC_PORT_NR, PITASC_DEFAULT_PORT);
+  }
+
+  private void resetToDefaultPitascPort() {
+    model.set(PITASC_PORT_NR, PITASC_DEFAULT_PORT);
+  }
+  
+  public KeyboardTextInput getInputForPitascPortTextField() {
+    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
+    keyboInput.setInitialValue(getPitascPort());
+    return keyboInput;
+  }
+
+  public KeyboardInputCallback<String> getCallbackForPitascPortTextField() {
+    return new KeyboardInputCallback<String>() {
+      @Override
+      public void onOk(String value) {
+        setPitascPort(value);
+        view.UpdatePitascPortTextField(value);
+      }
+    };
+  }
+
+  // port helper functions
+  public void setPitascFile(String file) {
+    if ("".equals(file)) {
+      resetToDefaultPitascFile();
+    } else {
+      model.set(PITASC_FILE, file);
+    }
+  }
+
+  public String getPitascFile() {
+    return model.get(PITASC_FILE, PITASC_DEFAULT_FILE);
+  }
+
+  private void resetToDefaultPitascFile() {
+    model.set(PITASC_FILE, PITASC_DEFAULT_FILE);
+  }
+  
+  public KeyboardTextInput getInputForPitascFileTextField() {
+    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
+    keyboInput.setInitialValue(getPitascFile());
+    return keyboInput;
+  }
+
+  public KeyboardInputCallback<String> getCallbackForPitascFileTextField() {
+    return new KeyboardInputCallback<String>() {
+      @Override
+      public void onOk(String value) {
+        setPitascFile(value);
+        view.UpdatePitascFileTextField(value);
+      }
+    };
+  }
+  
   public String getUrScriptProgram() {
     return urScriptProgram;
   }

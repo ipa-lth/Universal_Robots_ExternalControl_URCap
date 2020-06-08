@@ -25,6 +25,13 @@
 
 package com.fzi.externalcontrol.impl;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
 import com.ur.urcap.api.domain.ProgramAPI;
@@ -49,6 +56,9 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
   private final KeyboardInputFactory keyboardFactory;
   private final UndoRedoManager undoRedoManager;
 
+  private static final String PITASC_APP = "pitascapp";
+  private static final String PITASC_DEFAULT_APP = "my_app";
+  
   public ExternalControlProgramNodeContribution(
       ProgramAPIProvider apiProvider, ExternalControlProgramNodeView view, DataModel model) {
     this.programAPI = apiProvider.getProgramAPI();
@@ -79,7 +89,7 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
 
   @Override
   public void generateScript(ScriptWriter writer) {
-    getInstallation().getPitascCaller().appendNodeLines(writer);
+    getInstallation().getPitascCaller().appendNodeLines(writer, getPitascApp());
     String urScriptProgram = getInstallation().getUrScriptProgram();
     String uniqueFunName = "fun_" + getInstallation().IncrementInstanceCounter() + "()";
     writer.appendLine("def " + uniqueFunName + ":");
@@ -169,4 +179,38 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
       }
     };
   }
+  
+  // port helper functions
+  public void setPitascApp(String app) {
+    if ("".equals(app)) {
+      resetToDefaultPitascApp();
+    } else {
+      model.set(PITASC_APP, app);
+    }
+  }
+
+  public String getPitascApp() {
+    return model.get(PITASC_APP, PITASC_DEFAULT_APP);
+  }
+
+  private void resetToDefaultPitascApp() {
+    model.set(PITASC_APP, PITASC_DEFAULT_APP);
+  }
+  
+  public KeyboardTextInput getInputForPitascAppTextField() {
+    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
+    keyboInput.setInitialValue(getPitascApp());
+    return keyboInput;
+  }
+
+  public KeyboardInputCallback<String> getCallbackForPitascAppTextField() {
+    return new KeyboardInputCallback<String>() {
+      @Override
+      public void onOk(String value) {
+        setPitascApp(value);
+//        view.UpdatePitascAppTextField(value);
+      }
+    };
+  }
+  
 }

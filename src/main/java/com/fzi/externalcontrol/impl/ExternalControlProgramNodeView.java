@@ -25,6 +25,7 @@
 
 package com.fzi.externalcontrol.impl;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
@@ -54,6 +55,8 @@ public class ExternalControlProgramNodeView
   private JTextField maxLostPackages_TF = new JTextField(15);
   private JTextField gainServoj_TF = new JTextField(15);
 
+  private JTextField jTextFieldApp = new JTextField(15);;
+  
   public ExternalControlProgramNodeView(ViewAPIProvider apiProvider) {}
 
   @Override
@@ -63,6 +66,7 @@ public class ExternalControlProgramNodeView
     infoLabel = new JLabel();
     infoLabel.setFont(new Font("Serif", Font.BOLD, 14));
     panel.add(infoLabel);
+    panel.add(createInput(provider));
 
     /*
     standardParamsPanel = new JPanel();
@@ -173,4 +177,26 @@ public class ExternalControlProgramNodeView
         + "These settings can be altered via the Installation tab."
         + "<body><html>");
   }
+  
+  private Box createInput(final ContributionProvider<ExternalControlProgramNodeContribution> provider) {
+    Box inputBox = Box.createHorizontalBox();
+    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+    inputBox.add(new JLabel("App Name:"));
+//    inputBox.add(createHorizontalSpacing());
+
+    jTextFieldApp.setFocusable(false);
+//    jTextFieldApp.setPreferredSize(style.getInputfieldSize());
+    jTextFieldApp.setMaximumSize(jTextFieldApp.getPreferredSize());
+    jTextFieldApp.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent e) {
+        KeyboardTextInput keyboardInput = provider.get().getInputForPitascAppTextField();
+        keyboardInput.show(jTextFieldApp, provider.get().getCallbackForPitascAppTextField());
+      }
+    });
+
+    inputBox.add(jTextFieldApp);
+    return inputBox;
+  }
+  
 }
