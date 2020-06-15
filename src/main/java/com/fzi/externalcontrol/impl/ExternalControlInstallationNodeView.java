@@ -28,23 +28,15 @@ package com.fzi.externalcontrol.impl;
 import com.ur.urcap.api.contribution.installation.swing.SwingInstallationNodeView;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
-import com.ur.urcap.examples.helloworldswing.impl.Style;
-import com.ur.urcap.examples.helloworldswing.impl.V3Style;
-import com.ur.urcap.examples.helloworldswing.impl.V5Style;
-
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
 public class ExternalControlInstallationNodeView
     implements SwingInstallationNodeView<ExternalControlInstallationNodeContribution> {
@@ -161,7 +153,7 @@ public class ExternalControlInstallationNodeView
     box.add(label);
     // create port Textfield
     textFieldPitascPort = new JTextField(15);
-    textFieldPort.setText(contribution.getPitascPort());//TODO
+    textFieldPitascPort.setText(contribution.getPitascPort());//TODO
 //    textFieldPitascPort.setText("40404");
     textFieldPitascPort.setFocusable(false);
     textFieldPitascPort.addMouseListener(new MouseAdapter() {
@@ -182,7 +174,7 @@ public class ExternalControlInstallationNodeView
     box.add(label);
     // create port Textfield
     textFieldPitascFile = new JTextField(15);
-    textFieldPort.setText(contribution.getPitascFile());//TODO
+    textFieldPitascFile.setText(contribution.getPitascFile());//TODO
 //    textFieldPitascFile.setText("default.xml");
     textFieldPitascFile.setFocusable(false);
     textFieldPitascFile.addMouseListener(new MouseAdapter() {

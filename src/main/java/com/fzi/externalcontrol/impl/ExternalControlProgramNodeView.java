@@ -198,5 +198,9 @@ public class ExternalControlProgramNodeView
     inputBox.add(jTextFieldApp);
     return inputBox;
   }
+
+  public void UpdatePitascAppTextField(String value) {
+    jTextFieldApp.setText(value);
+  }
   
 }

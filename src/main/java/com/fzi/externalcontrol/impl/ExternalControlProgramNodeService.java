@@ -49,7 +49,7 @@ public class ExternalControlProgramNodeService
 
   @Override
   public String getTitle(Locale locale) {
-    return "External Control";
+    return "External Pitasc";
   }
 
   @Override

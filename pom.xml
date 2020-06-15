@@ -6,9 +6,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.fzi</groupId>
-	<artifactId>externalcontrol</artifactId>
+	<artifactId>externalpitasc</artifactId>
 	<version>1.0.1</version>
-	<name>External Control</name>
+	<name>External Pitasc</name>
 	<packaging>bundle</packaging>
 
 	<properties>
@@ -18,7 +18,7 @@
 		<!--         that comes along with your URCap                           -->
 		<!--********************************************************************-->
 		<!--******************* BEGINNING OF URCAP META DATA *******************-->
-		<urcap.symbolicname>com.fzi.externalcontrol</urcap.symbolicname>
+		<urcap.symbolicname>com.fzi.externalpitasc</urcap.symbolicname>
 		<urcap.vendor>FZI Research Center for Information Technology</urcap.vendor>
 		<urcap.contactAddress>Haid-und-Neu-Straße 10-14, 76131 Karlsruhe</urcap.contactAddress>
 		<urcap.copyright>Copyright (C) ${copyright.year} FZI Research Center for Information Technology</urcap.copyright>
@@ -33,7 +33,7 @@
 		<urcap.install.password>easybot</urcap.install.password>
 
 		<!--Install path for the UR Sim-->
-		<ursim.home></ursim.home>
+		<ursim.home>/home/ur/ursim/ursim-3.13.0.10253/</ursim.home>
 
 		<!--Host and standard user/password for UR Sim running in a VM-->
 		<ursimvm.install.host></ursimvm.install.host>

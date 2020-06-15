@@ -47,17 +47,23 @@ public class PitascCaller {
    * @param command is the line to be appended
    */
   public void appendInstallationLines(ScriptWriter writer, String file) {
-    System.out.println("-> Hello pitasc installation appendix generator");
-
     //TODO: Disable this call with some checkbox
     writer.assign(XMLRPC_VARIABLE, "rpc_factory(\"xmlrpc\", \"http://"+hostIp+":"+portNr+"/RPC2\")");
     // Call "load_file" only once at startup. Alternative: do another urcap to load the stuff and remove installation tab content
-    writer.appendLine(XMLRPC_VARIABLE + ".load_file(\"" + file + "\")");
+    writer.assign("load_resp", XMLRPC_VARIABLE + ".load_file(\"" + file + "\")");
   }
 
   public void appendNodeLines(ScriptWriter writer, String app) {
-    System.out.println("-> Hello pitasc node appendix generator");
-    writer.assign("rpcxml_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\")");
+    writer.appendLine("thread startApp():");
+    writer.appendLine("  textmsg(\"Start pitasc app thread.\")");
+        writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\")");
+    writer.appendLine("  textmsg(\"Stopped pitasc app thread.\")");
+    writer.appendLine("end");
+    writer.appendLine("threadApp = run startApp()");
+  }
+
+  public void appendNodePostLines(ScriptWriter writer) {
+    writer.appendLine("join threadApp");
   }
 
 }

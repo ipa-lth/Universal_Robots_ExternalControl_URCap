@@ -25,13 +25,6 @@
 
 package com.fzi.externalcontrol.impl;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
 import com.ur.urcap.api.domain.ProgramAPI;
@@ -84,18 +77,21 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
 
   @Override
   public boolean isDefined() {
-    return true;
+    return !model.get(PITASC_APP, PITASC_DEFAULT_APP).equals(PITASC_DEFAULT_APP);
   }
 
   @Override
   public void generateScript(ScriptWriter writer) {
     getInstallation().getPitascCaller().appendNodeLines(writer, getPitascApp());
+
     String urScriptProgram = getInstallation().getUrScriptProgram();
     String uniqueFunName = "fun_" + getInstallation().IncrementInstanceCounter() + "()";
     writer.appendLine("def " + uniqueFunName + ":");
     writer.appendRaw(urScriptProgram);
     writer.appendLine("end");
     writer.appendLine(uniqueFunName);
+
+    getInstallation().getPitascCaller().appendNodePostLines(writer);
   }
 
   private ExternalControlInstallationNodeContribution getInstallation() {
@@ -208,7 +204,7 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
       @Override
       public void onOk(String value) {
         setPitascApp(value);
-//        view.UpdatePitascAppTextField(value);
+        view.UpdatePitascAppTextField(value);
       }
     };
   }
