@@ -53,10 +53,10 @@ public class PitascCaller {
     writer.assign("load_resp", XMLRPC_VARIABLE + ".load_file(\"" + file + "\")");
   }
 
-  public void appendNodeLines(ScriptWriter writer, String app) {
+  public void appendNodeLines(ScriptWriter writer, String app, String param) {
     writer.appendLine("thread startApp():");
     writer.appendLine("  textmsg(\"Start pitasc app thread.\")");
-        writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\")");
+        writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\",\"" + param + "\")");
     writer.appendLine("  textmsg(\"Stopped pitasc app thread.\")");
     writer.appendLine("end");
     writer.appendLine("threadApp = run startApp()");

@@ -55,8 +55,9 @@ public class ExternalControlProgramNodeView
   private JTextField maxLostPackages_TF = new JTextField(15);
   private JTextField gainServoj_TF = new JTextField(15);
 
-  private JTextField jTextFieldApp = new JTextField(15);;
-  
+  private JTextField jTextFieldApp = new JTextField(15);
+  private JTextField jTextFieldParams = new JTextField(15);
+
   public ExternalControlProgramNodeView(ViewAPIProvider apiProvider) {}
 
   @Override
@@ -66,7 +67,8 @@ public class ExternalControlProgramNodeView
     infoLabel = new JLabel();
     infoLabel.setFont(new Font("Serif", Font.BOLD, 14));
     panel.add(infoLabel);
-    panel.add(createInput(provider));
+    panel.add(createInputApp(provider));
+    panel.add(createInputParams(provider));
 
     /*
     standardParamsPanel = new JPanel();
@@ -178,12 +180,11 @@ public class ExternalControlProgramNodeView
         + "<body><html>");
   }
   
-  private Box createInput(final ContributionProvider<ExternalControlProgramNodeContribution> provider) {
+  private Box createInputApp(final ContributionProvider<ExternalControlProgramNodeContribution> provider) {
     Box inputBox = Box.createHorizontalBox();
     inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
     inputBox.add(new JLabel("App Name:"));
 //    inputBox.add(createHorizontalSpacing());
-
     jTextFieldApp.setFocusable(false);
 //    jTextFieldApp.setPreferredSize(style.getInputfieldSize());
     jTextFieldApp.setMaximumSize(jTextFieldApp.getPreferredSize());
@@ -203,4 +204,28 @@ public class ExternalControlProgramNodeView
     jTextFieldApp.setText(value);
   }
   
+  private Box createInputParams(final ContributionProvider<ExternalControlProgramNodeContribution> provider) {
+    Box inputBox = Box.createHorizontalBox();
+    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+    inputBox.add(new JLabel("Params:"));
+//    inputBox.add(createHorizontalSpacing());
+
+    jTextFieldParams.setFocusable(false);
+//    jTextFieldApp.setPreferredSize(style.getInputfieldSize());
+    jTextFieldParams.setMaximumSize(jTextFieldParams.getPreferredSize());
+    jTextFieldParams.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent e) {
+        KeyboardTextInput keyboardInput = provider.get().getInputForPitascParamsTextField();
+        keyboardInput.show(jTextFieldParams, provider.get().getCallbackForPitascParamsTextField());
+      }
+    });
+
+    inputBox.add(jTextFieldParams);
+    return inputBox;
+  }
+
+  public void UpdatePitascParamsTextField(String value) {
+    jTextFieldParams.setText(value);
+  }
 }
