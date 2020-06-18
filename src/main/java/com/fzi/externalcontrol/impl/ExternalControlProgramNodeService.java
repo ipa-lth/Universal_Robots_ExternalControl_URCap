@@ -54,7 +54,7 @@ public class ExternalControlProgramNodeService
 
   @Override
   public ExternalControlProgramNodeView createView(ViewAPIProvider apiProvider) {
-    return new ExternalControlProgramNodeView(apiProvider);
+    return new ExternalControlProgramNodeView();
   }
 
   @Override

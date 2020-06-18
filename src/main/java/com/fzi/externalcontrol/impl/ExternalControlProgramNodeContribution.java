@@ -50,7 +50,7 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
   private final UndoRedoManager undoRedoManager;
 
   private static final String PITASC_APP = "pitascapp";
-  private static final String PITASC_DEFAULT_APP = "my_app";
+  private static final String PITASC_DEFAULT_APP = "<undefined>";
 
   private static final String PITASC_PARAMS = "pitascparams";
   private static final String PITASC_DEFAULT_PARAMS = "";
@@ -77,7 +77,7 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
 
   @Override
   public String getTitle() {
-    return "Control by " + getInstallation().getName();
+    return "pitasc: " + getPitascApp();
   }
 
   @Override
