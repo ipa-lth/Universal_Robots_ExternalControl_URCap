@@ -32,7 +32,7 @@ public class PitascCaller {
   private final String hostIp;
   // custom port
   private final int portNr;
-
+  private int instanceCnt = -1;
   /*
    * Default constructor
    */
@@ -54,16 +54,18 @@ public class PitascCaller {
   }
 
   public void appendNodeLines(ScriptWriter writer, String app, String param) {
-    writer.appendLine("thread startApp():");
+    this.instanceCnt++;
+    writer.appendLine("thread startApp_" + this.instanceCnt + "():");
     writer.appendLine("  textmsg(\"Start pitasc app thread.\")");
         writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\",\"" + param + "\")");
     writer.appendLine("  textmsg(\"Stopped pitasc app thread.\")");
+    //TODO: read return value and "blocking popup" if it is not "succeeded"
     writer.appendLine("end");
-    writer.appendLine("threadApp = run startApp()");
+    writer.appendLine("threadApp_" + this.instanceCnt +" = run startApp_" + this.instanceCnt +"()");
   }
 
   public void appendNodePostLines(ScriptWriter writer) {
-    writer.appendLine("join threadApp");
+    writer.appendLine("join threadApp_" + this.instanceCnt);
   }
 
 }
