@@ -59,7 +59,11 @@ public class PitascCaller {
     writer.appendLine("  textmsg(\"Start pitasc app thread.\")");
         writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\",\"" + param + "\")");
     writer.appendLine("  textmsg(\"Stopped pitasc app thread.\")");
+    writer.appendLine("  textmsg(app_resp)");
     //TODO: read return value and "blocking popup" if it is not "succeeded"
+    writer.appendLine("  if app_resp != \"succeeded\":");
+    writer.appendLine("    popup(app_resp, \"Continue?\", False, True, blocking=True)");
+    writer.appendLine("  end");
     writer.appendLine("end");
     writer.appendLine("threadApp_" + this.instanceCnt +" = run startApp_" + this.instanceCnt +"()");
   }
