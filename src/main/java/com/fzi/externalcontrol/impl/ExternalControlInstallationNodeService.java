@@ -44,7 +44,7 @@ public class ExternalControlInstallationNodeService
 
   @Override
   public String getTitle(Locale locale) {
-    return "External Pitasc";
+    return "External Control";
   }
 
   @Override
