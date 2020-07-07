@@ -36,9 +36,9 @@ public class Activator implements BundleActivator {
   public void start(BundleContext bundleContext) throws Exception {
     System.out.println("URcap enabling external control registering!");
     bundleContext.registerService(
-        SwingInstallationNodeService.class, new ExternalControlInstallationNodeService(), null);
+        SwingInstallationNodeService.class, new IPAControlInstallationNodeService(), null);
     bundleContext.registerService(
-        SwingProgramNodeService.class, new ExternalControlProgramNodeService(), null);
+        SwingProgramNodeService.class, new IPAControlProgramNodeService(), null);
   }
 
   @Override

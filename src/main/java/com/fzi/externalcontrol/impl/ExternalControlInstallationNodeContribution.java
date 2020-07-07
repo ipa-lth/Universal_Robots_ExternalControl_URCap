@@ -25,9 +25,6 @@
 
 package com.fzi.externalcontrol.impl;
 
-import static com.fzi.externalcontrol.impl.ExternalControlInstallationNodeContribution.DEFAULT_PORT;
-import static com.fzi.externalcontrol.impl.ExternalControlInstallationNodeContribution.PORT_NR;
-
 import com.ur.urcap.api.contribution.InstallationNodeContribution;
 import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
 import com.ur.urcap.api.domain.data.DataModel;
@@ -48,7 +45,6 @@ public class ExternalControlInstallationNodeContribution implements Installation
   protected final ExternalControlInstallationNodeView view;
   protected final KeyboardInputFactory keyboardFactory;
 
- 
   public ExternalControlInstallationNodeContribution(InstallationAPIProvider apiProvider,
       ExternalControlInstallationNodeView view, DataModel model) {
     this.keyboardFactory =
@@ -106,14 +102,73 @@ public class ExternalControlInstallationNodeContribution implements Installation
     };
   }
 
+  // port helper functions
+  public void setHostPort(String port) {
+    if ("".equals(port)) {
+      resetToDefaultPort();
+    } else {
+      model.set(PORT_NR, port);
+    }
+  }
+
+  public String getCustomPort() {
+    return model.get(PORT_NR, DEFAULT_PORT);
+  }
+
+  private void resetToDefaultPort() {
+    model.set(PORT_NR, DEFAULT_PORT);
+  }
+
+  public KeyboardTextInput getInputForPortTextField() {
+    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
+    keyboInput.setInitialValue(getCustomPort());
+    return keyboInput;
+  }
+
+  public KeyboardInputCallback<String> getCallbackForPortTextField() {
+    return new KeyboardInputCallback<String>() {
+      @Override
+      public void onOk(String value) {
+        setHostPort(value);
+        view.UpdatePortTextField(value);
+      }
+    };
+  }
+
+  // name helper functions
+  public void setName(String name) {
+    if ("".equals(name)) {
+      resetToDefaultName();
+    } else {
+      model.set(NAME, name);
+    }
+  }
+
+  public String getName() {
+    return model.get(NAME, DEFAULT_NAME);
+  }
+
+  private void resetToDefaultName() {
+    model.set(NAME, DEFAULT_NAME);
+  }
+
+  public KeyboardTextInput getInputForNameTextField() {
+    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
+    keyboInput.setInitialValue(getName());
+    return keyboInput;
+  }
+
+  public KeyboardInputCallback<String> getCallbackForNameTextField() {
+    return new KeyboardInputCallback<String>() {
+      @Override
+      public void onOk(String value) {
+        setName(value);
+        view.UpdateNameTextField(value);
+      }
+    };
+  }
 
   public String getUrScriptProgram() {
     return urScriptProgram;
   }
-  
-  public String getCustomPort() {
-	return model.get(PORT_NR, DEFAULT_PORT);
-  }
-
-  
 }

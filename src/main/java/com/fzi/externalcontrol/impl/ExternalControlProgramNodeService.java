@@ -49,12 +49,12 @@ public class ExternalControlProgramNodeService
 
   @Override
   public String getTitle(Locale locale) {
-    return "External Pitasc";
+    return "External Control";
   }
 
   @Override
   public ExternalControlProgramNodeView createView(ViewAPIProvider apiProvider) {
-    return new ExternalControlProgramNodeView();
+    return new ExternalControlProgramNodeView(apiProvider);
   }
 
   @Override

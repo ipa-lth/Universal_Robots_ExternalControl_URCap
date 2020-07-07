@@ -8,6 +8,8 @@ import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
 public class IPAControlInstallationNodeContribution extends ExternalControlInstallationNodeContribution {
 
+	  private final IPAControlInstallationNodeView view;
+
 	  private int instanceCounter = 0;
 
 	  private PitascCaller pitascCaller;
@@ -17,8 +19,9 @@ public class IPAControlInstallationNodeContribution extends ExternalControlInsta
 	  private static final String PITASC_DEFAULT_FILE = "default.xml";
 
 	  public IPAControlInstallationNodeContribution(InstallationAPIProvider apiProvider,
-		      ExternalControlInstallationNodeView view, DataModel model) {
+		      IPAControlInstallationNodeView view, DataModel model) {
 		  super(apiProvider, view, model);
+		  this.view = view;
 	  }
 	  
 	  public void generateScript(ScriptWriter writer) {
