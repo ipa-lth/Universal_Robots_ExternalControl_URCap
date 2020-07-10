@@ -19,10 +19,12 @@ public class IPAControlInstallationNodeService extends ExternalControlInstallati
 	    return new IPAControlInstallationNodeView();
 	  }
 
+	  @Override
 	  public IPAControlInstallationNodeContribution createInstallationNode(
-	      InstallationAPIProvider installationApiProvider, IPAControlInstallationNodeView view,
+	      InstallationAPIProvider installationApiProvider, ExternalControlInstallationNodeView view,
 	      DataModel model, CreationContext context) {
-	    return new IPAControlInstallationNodeContribution(installationApiProvider, view, model);
+		IPAControlInstallationNodeView ipa_view = new IPAControlInstallationNodeView();
+	    return new IPAControlInstallationNodeContribution(installationApiProvider, ipa_view, model);
 	  }
 	  
 }
