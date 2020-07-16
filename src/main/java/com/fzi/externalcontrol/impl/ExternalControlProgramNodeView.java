@@ -45,8 +45,7 @@ import com.ur.urcap.api.contribution.ViewAPIProvider;
 import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
-public class ExternalControlProgramNodeView
-    implements SwingProgramNodeView<ExternalControlProgramNodeContribution> {
+public class ExternalControlProgramNodeView {
   protected JCheckBox advancedParam_CB;
   protected JLabel infoLabel;
   protected JPanel standardParamsPanel;
@@ -56,7 +55,6 @@ public class ExternalControlProgramNodeView
 
   public ExternalControlProgramNodeView(ViewAPIProvider apiProvider) {}
 
-  @Override
   public void buildUI(
       JPanel panel, ContributionProvider provider) {
     panel.setLayout(new GridLayout(2, 1, 5, 5));

@@ -5,10 +5,13 @@ import java.util.Locale;
 import com.ur.urcap.api.contribution.ViewAPIProvider;
 import com.ur.urcap.api.contribution.installation.CreationContext;
 import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
+import com.ur.urcap.api.contribution.installation.swing.SwingInstallationNodeService;
 import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
 import com.ur.urcap.api.domain.data.DataModel;
 
-public class IPAControlInstallationNodeService extends ExternalControlInstallationNodeService {
+public class IPAControlInstallationNodeService extends ExternalControlInstallationNodeService
+	implements SwingInstallationNodeService<IPAControlInstallationNodeContribution,
+	IPAControlInstallationNodeView>{
 	
 	  @Override
 	  public String getTitle(Locale locale) {
@@ -21,10 +24,9 @@ public class IPAControlInstallationNodeService extends ExternalControlInstallati
 
 	  @Override
 	  public IPAControlInstallationNodeContribution createInstallationNode(
-	      InstallationAPIProvider installationApiProvider, ExternalControlInstallationNodeView view,
+	      InstallationAPIProvider installationApiProvider, IPAControlInstallationNodeView view,
 	      DataModel model, CreationContext context) {
-		IPAControlInstallationNodeView ipa_view = new IPAControlInstallationNodeView();
-	    return new IPAControlInstallationNodeContribution(installationApiProvider, ipa_view, model);
+	    return new IPAControlInstallationNodeContribution(installationApiProvider, view, model);
 	  }
 	  
 }

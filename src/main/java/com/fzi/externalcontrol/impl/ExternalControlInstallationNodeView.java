@@ -38,14 +38,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ExternalControlInstallationNodeView
-	implements SwingInstallationNodeView<ExternalControlInstallationNodeContribution>{
+	{
   private JTextField textFieldIP;
   private JTextField textFieldPort;
   private JTextField textFieldName;
 
   public ExternalControlInstallationNodeView() {}
 
-  @Override
   public void buildUI(
       JPanel panel, ExternalControlInstallationNodeContribution contribution) {
     panel.add(createIPBox(contribution));

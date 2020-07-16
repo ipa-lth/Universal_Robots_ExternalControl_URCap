@@ -12,7 +12,7 @@ import com.ur.urcap.api.contribution.installation.swing.SwingInstallationNodeVie
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
 public class IPAControlInstallationNodeView extends ExternalControlInstallationNodeView 
- {
+ implements SwingInstallationNodeView<IPAControlInstallationNodeContribution>{
 
 	  private JTextField textFieldPitascPort;
 	  private JTextField textFieldPitascFile;
@@ -20,7 +20,7 @@ public class IPAControlInstallationNodeView extends ExternalControlInstallationN
 	  public IPAControlInstallationNodeView() {
 		  super();
 	  }
-
+	  
 	  public void buildUI(
 	      JPanel panel, final IPAControlInstallationNodeContribution contribution) {
 	    panel.add(super.createIPBox(contribution));

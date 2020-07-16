@@ -16,10 +16,12 @@ import javax.swing.WindowConstants;
 
 import com.ur.urcap.api.contribution.ContributionProvider;
 import com.ur.urcap.api.contribution.ViewAPIProvider;
+import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
 
-public class IPAControlProgramNodeView extends ExternalControlProgramNodeView {
+public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
+	implements SwingProgramNodeView<IPAControlProgramNodeContribution> {
 	
 	  private JTextField jTextFieldApp = new JTextField(15);
 	  private JTextField jTextFieldParams = new JTextField(15);
