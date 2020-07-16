@@ -33,9 +33,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -77,7 +82,14 @@ public class ExternalControlProgramNodeView
     subpanel.add(createInputParams(provider));
 
     panel.add(subpanel);
+    
+    ImageIcon ipaIcon = new ImageIcon(getClass().getResource("/icons/IPA_logo.png"));
+	JLabel ipaIconLabel = new JLabel(ipaIcon);
+	panel.add(ipaIconLabel);
+	ipaIconLabel.setVisible(true);
 
+
+    
     /*
     standardParamsPanel = new JPanel();
     JLabel standardParamsLabel = new JLabel("Standard Parameters: ");
