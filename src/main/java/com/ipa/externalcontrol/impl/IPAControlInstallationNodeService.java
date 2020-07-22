@@ -1,4 +1,4 @@
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import java.util.Locale;
 
@@ -15,7 +15,7 @@ public class IPAControlInstallationNodeService extends ExternalControlInstallati
 	
 	  @Override
 	  public String getTitle(Locale locale) {
-		    return "External Pitasc";
+		    return "Kogrob Testbed 2 Self-Optimzing CPRs";
 		  }
 	  @Override
 	  public IPAControlInstallationNodeView createView(ViewAPIProvider apiProvider) {

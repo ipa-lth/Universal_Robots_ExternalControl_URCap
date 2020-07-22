@@ -23,7 +23,7 @@
 */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import java.awt.Font;
 import java.awt.GridLayout;

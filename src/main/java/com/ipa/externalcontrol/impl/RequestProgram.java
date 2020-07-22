@@ -22,7 +22,7 @@
  *
  */
 //----------------------------------------------------------------------
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;

@@ -23,7 +23,7 @@
 */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import com.ur.urcap.api.contribution.installation.swing.SwingInstallationNodeView;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
@@ -126,7 +126,7 @@ public class ExternalControlInstallationNodeView
     return box;
   }
 
-  private Component createSpacer(int height) {
+  protected Component createSpacer(int height) {
     return Box.createRigidArea(new Dimension(0, height));
   }
 }

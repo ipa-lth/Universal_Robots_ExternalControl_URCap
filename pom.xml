@@ -5,10 +5,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.fzi</groupId>
-	<artifactId>externalpitasc</artifactId>
+	<groupId>com.ipa</groupId>
+	<artifactId>externalcontrol</artifactId>
 	<version>1.0.1</version>
-	<name>External Pitasc</name>
+	<name>External IPA</name>
 	<packaging>bundle</packaging>
 
 	<properties>
@@ -18,11 +18,12 @@
 		<!--         that comes along with your URCap                           -->
 		<!--********************************************************************-->
 		<!--******************* BEGINNING OF URCAP META DATA *******************-->
-		<urcap.symbolicname>com.fzi.externalpitasc</urcap.symbolicname>
-		<urcap.vendor>FZI Research Center for Information Technology</urcap.vendor>
-		<urcap.contactAddress>Haid-und-Neu-Straße 10-14, 76131 Karlsruhe</urcap.contactAddress>
-		<urcap.copyright>Copyright (C) ${copyright.year} FZI Research Center for Information Technology</urcap.copyright>
-		<urcap.description>URcap which enables external control</urcap.description>
+		<urcap.symbolicname>com.ipa.externalcontrol</urcap.symbolicname>
+		<urcap.vendor>Fraunhofer Institut für Produktionstechnik und Automatisierung IPA</urcap.vendor>
+		<urcap.contactAddress>Nobelstraße 12, 70569 Stuttgart</urcap.contactAddress>
+		<urcap.copyright>Copyright (C) ${copyright.year} Fraunhofer IPA </urcap.copyright>
+		<urcap.description>URcap which calls external IPA components.
+		This was built on a fork of the URCap "externalcontrol" developed by FZI Research Center for Information Technology, Karlsruhe</urcap.description>
 		<urcap.licenseType>Apache License, Version 2.0</urcap.licenseType>
 		<!--********************** END OF URCAP META DATA **********************-->
 		<!--********************************************************************-->
@@ -96,7 +97,7 @@
 					<instructions>
 						<!--********** DO NOT MODIFY THE ENTRIES OF THIS SECTION **********-->
 						<Bundle-Category>URCap</Bundle-Category>
-						<Bundle-Activator>com.fzi.externalcontrol.impl.Activator</Bundle-Activator>
+						<Bundle-Activator>com.ipa.externalcontrol.impl.Activator</Bundle-Activator>
 						<Bundle-Vendor>${urcap.vendor}</Bundle-Vendor>
 						<Bundle-ContactAddress>${urcap.contactAddress}</Bundle-ContactAddress>
 						<Bundle-Copyright>${urcap.copyright}</Bundle-Copyright>

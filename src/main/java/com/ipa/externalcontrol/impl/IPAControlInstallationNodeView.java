@@ -1,4 +1,4 @@
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,29 +24,25 @@ public class IPAControlInstallationNodeView extends ExternalControlInstallationN
 	  public void buildUI(
 	      JPanel panel, final IPAControlInstallationNodeContribution contribution) {
 	    panel.add(super.createIPBox(contribution));
-//	    panel.add(createSpacer(200));
 	    panel.add(super.createPortBox(contribution));
-//	    panel.add(createSpacer(200));
 	    panel.add(super.createNameBox(contribution));
-//	    panel.add(createSpacer(200));
 	    panel.add(createPitascPortBox(contribution));
-//	    panel.add(createSpacer(200));
 	    panel.add(createPitascFileBox(contribution));
 	  }
 
 	  
 	  public void UpdatePitascPortTextField(String value) {
-		  textFieldPitascPort.setText(value);
+	  	textFieldPitascPort.setText(value);
 	  }
 		  
 	  public void UpdatePitascFileTextField(String value) {
-		  textFieldPitascFile.setText(value);
+	  	textFieldPitascFile.setText(value);
 	  }
 
 	  private Box createPitascPortBox(final IPAControlInstallationNodeContribution contribution) {
 		    Box box = Box.createVerticalBox();
 		    // create port Label
-		    JLabel label = new JLabel("pitasc port: ");
+		    JLabel label = new JLabel("IPA port: "); //pitasc
 		    box.add(label);
 		    // create port Textfield
 		    textFieldPitascPort = new JTextField(15);
@@ -67,7 +63,7 @@ public class IPAControlInstallationNodeView extends ExternalControlInstallationN
 		  private Box createPitascFileBox(final IPAControlInstallationNodeContribution contribution) {
 		    Box box = Box.createVerticalBox();
 		    // create port Label
-		    JLabel label = new JLabel("pitasc config: ");
+		    JLabel label = new JLabel("IPA config: "); //pitasc
 		    box.add(label);
 		    // create port Textfield
 		    textFieldPitascFile = new JTextField(15);

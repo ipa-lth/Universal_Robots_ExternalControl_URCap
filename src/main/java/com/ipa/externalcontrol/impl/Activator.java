@@ -23,7 +23,7 @@
  */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

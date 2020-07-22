@@ -22,7 +22,7 @@
  *
  */
 //----------------------------------------------------------------------
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 public class BuildCommand {
   private final String programName;

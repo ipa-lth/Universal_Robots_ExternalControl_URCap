@@ -23,34 +23,36 @@
 */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
-
-import com.ur.urcap.api.contribution.ViewAPIProvider;
-import com.ur.urcap.api.contribution.installation.ContributionConfiguration;
-import com.ur.urcap.api.contribution.installation.CreationContext;
-import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
-import com.ur.urcap.api.contribution.installation.swing.SwingInstallationNodeService;
-import com.ur.urcap.api.domain.data.DataModel;
+package com.ipa.externalcontrol.impl;
 
 import java.util.Locale;
 
-public class ExternalControlInstallationNodeService
-     {
+import com.ur.urcap.api.contribution.ViewAPIProvider;
+import com.ur.urcap.api.contribution.program.ContributionConfiguration;
+import com.ur.urcap.api.contribution.program.CreationContext;
+import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
+import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeService;
+import com.ur.urcap.api.domain.data.DataModel;
+
+public class ExternalControlProgramNodeService {
+  public String getId() {
+    return "ExternalControlNode";
+  }
+
   public void configureContribution(ContributionConfiguration configuration) {
-    // TODO Auto-generated method stub
+    configuration.setChildrenAllowed(false);
   }
 
   public String getTitle(Locale locale) {
     return "External Control";
   }
 
-  public ExternalControlInstallationNodeView createView(ViewAPIProvider apiProvider) {
-    return new ExternalControlInstallationNodeView();
+  public ExternalControlProgramNodeView createView(ViewAPIProvider apiProvider) {
+    return new ExternalControlProgramNodeView(apiProvider);
   }
 
-  public ExternalControlInstallationNodeContribution createInstallationNode(
-      InstallationAPIProvider installationApiProvider, ExternalControlInstallationNodeView view,
-      DataModel model, CreationContext context) {
-    return new ExternalControlInstallationNodeContribution(installationApiProvider, view, model);
+  public ExternalControlProgramNodeContribution createNode(ProgramAPIProvider apiProvider,
+      ExternalControlProgramNodeView view, DataModel model, CreationContext context) {
+    return new ExternalControlProgramNodeContribution(apiProvider, view, model);
   }
 }

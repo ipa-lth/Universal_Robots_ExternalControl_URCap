@@ -22,7 +22,7 @@
  *
  */
 //----------------------------------------------------------------------
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import com.ur.urcap.api.domain.script.ScriptWriter;
 
