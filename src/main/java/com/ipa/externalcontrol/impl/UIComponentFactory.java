@@ -84,7 +84,7 @@ public final class UIComponentFactory {
 
 	public Box createComboBox(final String id,
 			final String label,
-			JComboBox<String> inputComboBox,
+			final JComboBox<String> inputComboBox,
 			final String[] values,
 			final ContributionProvider<IPAControlProgramNodeContribution> provider) {
 		
@@ -94,8 +94,8 @@ public final class UIComponentFactory {
 		jointTypeLabel.setFont(new Font("Serif", Font.BOLD, 14));
     inputBox.add(jointTypeLabel);
 		
-		String joint_type_list[] = {"Kehlnaht", "Stumpfnaht"};
-		inputComboBox = new JComboBox<String>(joint_type_list);
+//		String joint_type_list[] = {"Kehlnaht", "Stumpfnaht"};
+//		inputComboBox = new JComboBox<String>({"Kehlnaht", "Stumpfnaht"});
 		inputComboBox.setFont(new Font("Serif", Font.BOLD, 14));
 		inputComboBox.setVisible(true);
 		inputBox.add(inputComboBox);
@@ -105,6 +105,7 @@ public final class UIComponentFactory {
 			public void actionPerformed(ActionEvent actionEvent) {
 				provider.get().onSelection("WELDING_JOINT_TYPE");
 			}
+			
 		});
     inputBox.add(inputComboBox);
     return inputBox;

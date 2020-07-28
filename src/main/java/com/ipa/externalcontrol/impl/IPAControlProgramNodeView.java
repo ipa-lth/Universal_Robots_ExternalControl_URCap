@@ -37,10 +37,12 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -122,112 +124,34 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 								weldSpeedTextFieldConstraints);
 
 			// Pitasc
-//		GridBagConstraints pitascAppConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
-//		pitascAppConstraints.gridx = 0;
-//		pitascAppConstraints.gridy = 4;
-//		pitascAppConstraints.gridwidth = 1;
-////		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-//			panel.add(uiComponentFactory.createTextInputBox(
-//									"PITASC_APP", "App:       ", jTextFieldApp, "testapp", provider),
-//								pitascAppConstraints);
-//			
-//		GridBagConstraints pitascParamsConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
-//		pitascParamsConstraints.gridx = 0;
-//		pitascParamsConstraints.gridy = 5;
-//  	pitascParamsConstraints.gridwidth = 1;
-////		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-//			panel.add(uiComponentFactory.createTextInputBox(
-//									"PITASC_PARAMS", "Params: ", jTextFieldParams, "testparam", provider),
-//								pitascParamsConstraints);
+		GridBagConstraints pitascAppConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
+		pitascAppConstraints.gridx = 0;
+		pitascAppConstraints.gridy = 4;
+		pitascAppConstraints.gridwidth = 1;
+//		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
+			panel.add(uiComponentFactory.createTextInputBox(
+									"PITASC_APP", "App:       ", jTextFieldApp, "testapp", provider),
+								pitascAppConstraints);
+			
+		GridBagConstraints pitascParamsConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
+		pitascParamsConstraints.gridx = 0;
+		pitascParamsConstraints.gridy = 5;
+  	pitascParamsConstraints.gridwidth = 1;
+//		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
+			panel.add(uiComponentFactory.createTextInputBox(
+									"PITASC_PARAMS", "Params: ", jTextFieldParams, "testparam", provider),
+								pitascParamsConstraints);
 				
-						
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		
-//
-//	    panel.add(createInputApp(provider));
-//	    panel.add(createInputParams(provider));
-
-			
-	    /*
-	    standardParamsPanel = new JPanel();
-	    JLabel standardParamsLabel = new JLabel("Standard Parameters: ");
-	    standardParamsLabel.setFont(new Font("Serif", Font.BOLD, 20));
-	    standardParamsPanel.add(standardParamsLabel);
-	    panel.add(standardParamsPanel);
-
-	    advancedParamsPanel = new JPanel();
-	    JLabel advancedParamsLabel = new JLabel("Advanced Parameters: ");
-	    advancedParamsLabel.setFont(new Font("Serif", Font.BOLD, 20));
-	    advancedParamsPanel.add(advancedParamsLabel);
-	    panel.add(advancedParamsPanel);
-
-	    createMaxLostPackages(
-	        standardParamsPanel, provider, maxLostPackages_TF, "Max Nr. of lost pkg: ", "1000");
-	    panel.add(createAdvancedParamBox(provider));
-
-	    createGainServoJ(advancedParamsPanel, provider, gainServoj_TF, "Gain servoj: ", "0");
-	     */
 	  }
 	  
 	  //////////////////////////////////////////////////////////////////////////////////////////////
 	  // PITASC
 	  //////////////////////////////////////////////////////////////////////////////////////////////
 	  
-	  private Box createInputApp(final ContributionProvider<IPAControlProgramNodeContribution> provider) {
-		    Box inputBox = Box.createHorizontalBox();
-		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-		    inputBox.add(new JLabel("App:       ")); // Hacky hack hack: Layout should be synced and not done with whitespaces...
-//		    inputBox.add(createHorizontalSpacing());
-		    jTextFieldApp.setFocusable(false);
-//		    jTextFieldApp.setPreferredSize(style.getInputfieldSize());
-//		    jTextFieldApp.setMaximumSize(jTextFieldApp.getPreferredSize());
-		    jTextFieldApp.addMouseListener(new MouseAdapter() {
-		      @Override
-		      public void mousePressed(MouseEvent e) {
-		        KeyboardTextInput keyboardInput = provider.get().getInputForPitascAppTextField();
-		        keyboardInput.show(jTextFieldApp, provider.get().getCallbackForPitascAppTextField());
-		      }
-		    });
-
-		    inputBox.add(jTextFieldApp);
-		    return inputBox;
-		  }
-
 		  public void UpdatePitascAppTextField(String value) {
 		    jTextFieldApp.setText(value);
 		  }
 		  
-		  private Box createInputParams(final ContributionProvider<IPAControlProgramNodeContribution> provider) {
-		    Box inputBox = Box.createHorizontalBox();
-		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-		    inputBox.add(new JLabel("Params: "));
-//		    inputBox.add(createHorizontalSpacing());
-
-		    jTextFieldParams.setFocusable(false);
-//		    jTextFieldApp.setPreferredSize(style.getInputfieldSize());
-//		    jTextFieldParams.setMaximumSize(jTextFieldParams.getPreferredSize());
-		    jTextFieldParams.addMouseListener(new MouseAdapter() {
-		      @Override
-		      public void mousePressed(MouseEvent e) {
-		        KeyboardTextInput keyboardInput = provider.get().getInputForPitascParamsTextField();
-		        keyboardInput.show(jTextFieldParams, provider.get().getCallbackForPitascParamsTextField());
-		      }
-		    });
-
-		    inputBox.add(jTextFieldParams);
-		    return inputBox;
-		  }
-
 		  public void UpdatePitascParamsTextField(String value) {
 		    jTextFieldParams.setText(value);
 		  }
@@ -238,69 +162,29 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 		  //////////////////////////////////////////////////////////////////////////////////////////////
 		  
 		  
-//		  private Box createWeldingSpeed(final ContributionProvider<IPAControlProgramNodeContribution> provider) {	  	
-//		  	Box inputBox = Box.createHorizontalBox();
-//		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-//				JLabel weldSpeedLabel = new JLabel("Robotergeschwindigkeit (mm/min):  ");
-//				weldSpeedLabel.setFont(new Font("Serif", Font.BOLD, 14));
-////				GridBagConstraints weldSpeedLabelConstraints = (GridBagConstraints) baseConstraints.clone();
-////				weldSpeedLabelConstraints.gridx = 0;
-////				weldSpeedLabelConstraints.gridy = 4;
-////				weldSpeedLabelConstraints.anchor = GridBagConstraints.WEST;
-////				weldSpeedLabelConstraints.fill = GridBagConstraints.NONE;
-//		    inputBox.add(weldSpeedLabel);
-//
-//		    weldingSpeed.setFocusable(false);
-//		  	weldingSpeed.setFont(new Font("Serif", Font.BOLD, 14));
-//		  	weldingSpeed.setText("500");
-////				GridBagConstraints weldSpeedTextFieldConstraints = (GridBagConstraints) baseConstraints.clone();
-////				weldSpeedTextFieldConstraints.gridx = 0;
-////				weldSpeedTextFieldConstraints.gridy = 5;
-////				weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-//		    weldingSpeed.addMouseListener(new MouseAdapter() {
-//		      @Override
-//		      public void mousePressed(MouseEvent e) {
-//		        KeyboardTextInput keyboardInput = provider.get().getInputForWeldingSpeedTextField();
-//		        keyboardInput.show(weldingSpeed, provider.get().getCallbackForWeldingSpeedTextField());
-//		      }
-//		    });
-//		    weldingSpeed.setText("500");
-//
-//		    inputBox.add(weldingSpeed);
-//		    return inputBox;
-//		  }
-//
 			public void UpdateWeldingSpeedTextField(String value) {
 				weldingSpeed.setText(value);
 			}		  		 
 		  
-//		  private Box createWeldJointType(final ContributionProvider<IPAControlProgramNodeContribution> provider) {	  	
-//		  	Box inputBox = Box.createHorizontalBox();
-//		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-//				JLabel jointTypeLabel = new JLabel("Typ der Schweißnaht: ");
-//				jointTypeLabel.setFont(new Font("Serif", Font.PLAIN, 14));
-//		    inputBox.add(jointTypeLabel);
-//				
-//				String joint_type_list[] = {"Kehlnaht", "Stumpfnaht"};
-//				weldjointType = new JComboBox<String>(joint_type_list);
-//				weldjointType.setFont(new Font("Serif", Font.BOLD, 14));
-//				weldjointType.setVisible(true);
-//		    inputBox.add(weldjointType);
-//
-//		    weldjointType.addActionListener(new ActionListener() {
-//					@Override
-//					public void actionPerformed(ActionEvent actionEvent) {
-//						provider.get().onWeldJointTypeSelection();
-//						weldjointType.setFont(new Font("Serif", Font.BOLD, 14));
-//					}
-//				});
-//		    inputBox.add(weldjointType);
-//		    return inputBox;
-//		  }
-
+			public void setWeldJointTypes(String[] jointTypes) {
+				weldjointType.removeAll();
+				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
+				for(String jointType : jointTypes){
+					model.addElement(jointType);
+				}
+				weldjointType.setModel(model);
+				weldjointType.updateUI();
+			}
+			
+			
 			public String getSelectedWeldJointType() {
 				return (String) weldjointType.getSelectedItem();
 			}
+			
+			public void setSelectedWeldJointType(String unit) {
+				weldjointType.setSelectedItem(unit);
+			}
+
 			
 		  //////////////////////////////////////////////////////////////////////////////////////////////
 		  //////////////////////////////////////////////////////////////////////////////////////////////

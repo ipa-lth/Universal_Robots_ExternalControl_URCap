@@ -1,35 +1,57 @@
 package com.ipa.externalcontrol.impl;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.ur.urcap.api.contribution.program.CreationContext;
 import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
 import com.ur.urcap.api.domain.data.DataModel;
+import com.ur.urcap.api.domain.program.ProgramModel;
+import com.ur.urcap.api.domain.program.nodes.ProgramNodeFactory;
+import com.ur.urcap.api.domain.program.nodes.builtin.MoveNode;
+import com.ur.urcap.api.domain.program.nodes.builtin.PopupNode;
+import com.ur.urcap.api.domain.program.nodes.builtin.SetNode;
+import com.ur.urcap.api.domain.program.structure.TreeNode;
 import com.ur.urcap.api.domain.script.ScriptWriter;
 import com.ur.urcap.api.domain.undoredo.UndoableChanges;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputCallback;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
+import com.ur.urcap.api.domain.value.ValueFactoryProvider;
 import com.ur.urcap.api.domain.value.simple.Length;
+import com.ur.urcap.api.domain.value.simple.SimpleValueFactory;
 
 public class IPAControlProgramNodeContribution extends ExternalControlProgramNodeContribution {
 
 	  private final IPAControlProgramNodeView view;
 	  private final ProgramAPIProvider apiProvider;
-	
-	  private static final String PITASC_APP = "pitascapp";
-	  private static final String PITASC_DEFAULT_APP = "<undefined>";
+		private final ProgramModel programModel;
+		private final ProgramNodeFactory programNodeFactory;
+		private final ValueFactoryProvider valueFactoryProvider;
 
-	  private static final String PITASC_PARAMS = "pitascparams";
-	  private static final String PITASC_DEFAULT_PARAMS = "";
+	  private final String PITASC_APP = "pitascapp";
+	  private final String PITASC_DEFAULT_APP = "<undefined>";
+
+	  private final String PITASC_PARAMS = "pitascparams";
+	  private final String PITASC_DEFAULT_PARAMS = "";
 	  
-	  private static final String WELDING_SPEED = "weldingspeed";
-	  private static final String WELDING_DEFAULT_SPEED = "500";
+	  private final String WELDING_SPEED = "weldingspeed";
+	  private final String WELDING_DEFAULT_SPEED = "500";
 	  
-	  private static final String WELDING_JOINT_TYPE = "weldingjointtype";
-	  private static final String WELDING_DEFAULT_JOINT_TYPE = "Kehlnaht";
+	  private final String WELDING_JOINT_TYPE = "weldingjointtype";
+	  private final String WELDING_DEFAULT_JOINT_TYPE = "Kehlnaht";
 	  
 	  public IPAControlProgramNodeContribution(
-		      ProgramAPIProvider apiProvider, IPAControlProgramNodeView view, DataModel model) {
+		      ProgramAPIProvider apiProvider, IPAControlProgramNodeView view, DataModel model, CreationContext context) {
 		  super(apiProvider, view, model);
 		  this.view = view;
 		  this.apiProvider = apiProvider;
+			this.programModel = programAPI.getProgramModel();
+			this.programNodeFactory = apiProvider.getProgramAPI().getProgramModel().getProgramNodeFactory();
+			this.valueFactoryProvider = apiProvider.getProgramAPI().getValueFactoryProvider();
+
+			if (context.getNodeCreationType() == CreationContext.NodeCreationType.NEW) {
+				initialize();
+			}
 	  }
 
 	  @Override
@@ -37,8 +59,17 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 	  	super.openView();
 	    view.UpdatePitascAppTextField(getPitascApp());
 	    view.UpdatePitascParamsTextField(getPitascParams());
+	    view.UpdateWeldingSpeedTextField(getWeldingSpeed());
+	    initializeDropDownList();
 	  }
 
+		private void initializeDropDownList() {
+			String[] jointTypes = new String[] { "Kehlnaht", "Stumpfnaht" };
+			view.setWeldJointTypes(jointTypes);
+			view.setSelectedWeldJointType(getWeldingJointType());
+		}
+	  
+	  
 	  @Override
 	  public String getTitle() {
 //	    return "pitasc: " + getPitascApp();
@@ -72,13 +103,18 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 		 }
 
 	  
+		private void initialize() {
+			//TODO
+		}
+	  
+	  
 	  ////////////////////////////////////////////
 	  // PITASC APP	  
 	  ////////////////////////////////////////////
 	  
 	  public void setPitascApp(String app) {
 	    if ("".equals(app)) {
-	      resetToDefaultPitascApp();
+	    	model.set(PITASC_APP, PITASC_DEFAULT_APP);
 	    } else {
 	      model.set(PITASC_APP, app);
 	    }
@@ -88,33 +124,13 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 	    return model.get(PITASC_APP, PITASC_DEFAULT_APP);
 	  }
 
-	  private void resetToDefaultPitascApp() {
-	    model.set(PITASC_APP, PITASC_DEFAULT_APP);
-	  }
-	  
-	  public KeyboardTextInput getInputForPitascAppTextField() {
-	    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-	    keyboInput.setInitialValue(getPitascApp());
-	    return keyboInput;
-	  }
-
-	  public KeyboardInputCallback<String> getCallbackForPitascAppTextField() {
-	    return new KeyboardInputCallback<String>() {
-	      @Override
-	      public void onOk(String value) {
-	        setPitascApp(value);
-	        view.UpdatePitascAppTextField(value);
-	      }
-	    };
-	  }
-
 	  ////////////////////////////////////////////
 	  // PITASC PARAMS	  
 	  ////////////////////////////////////////////
 	  
 	  public void setPitascParams(String params) {
 	    if ("".equals(params)) {
-	      resetToDefaultPitascParams();
+	    	model.set(PITASC_PARAMS, PITASC_DEFAULT_PARAMS);
 	    } else {
 	      model.set(PITASC_PARAMS, params);
 	    }
@@ -123,64 +139,22 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 	  public String getPitascParams() {
 	    return model.get(PITASC_PARAMS, PITASC_DEFAULT_PARAMS);
 	  }
-
-	  private void resetToDefaultPitascParams() {
-	    model.set(PITASC_PARAMS, PITASC_DEFAULT_PARAMS);
-	  }
-
-	  public KeyboardTextInput getInputForPitascParamsTextField() {
-	    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-	    keyboInput.setInitialValue(getPitascParams());
-	    return keyboInput;
-	  }
-
-	  public KeyboardInputCallback<String> getCallbackForPitascParamsTextField() {
-	    return new KeyboardInputCallback<String>() {
-	      @Override
-	      public void onOk(String value) {
-	        setPitascParams(value);
-	        view.UpdatePitascParamsTextField(value);
-	      }
-	    };
-	  }
 	  
 	  ////////////////////////////////////////////
 	  // KOGROB JOINT TYPE	  
 	  ////////////////////////////////////////////
 
-	  public void setWeldingJointType(String params) {
-	    if ("".equals(params)) {
-	      resetToDefaultWeldingJointType();
-	    } else {
-	      model.set(WELDING_JOINT_TYPE, params);
-	    }
-	  }	  
 	  public String getWeldingJointType() {
 	    return model.get(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE);
 	  }
 	  
-	  private void resetToDefaultWeldingJointType() {
-	    model.set(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE);
-	  }
-
-		public void onWeldJointTypeSelection() {
-			apiProvider.getProgramAPI().getUndoRedoManager().recordChanges(new UndoableChanges() {
-				@Override
-				public void executeChanges() {
-					String jointType = view.getSelectedWeldJointType();
-					model.set(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE);
-					setWeldingJointType(jointType);
-				}
-			});
-		}
-
 	  ////////////////////////////////////////////
 	  // KOGROB WELD SPEED
 	  ////////////////////////////////////////////
 
 	  public void setWeldingSpeed(String params) {
 	    if ("".equals(params)) {
-	      resetToDefaultWeldingSpeed();
+	    	model.set(WELDING_SPEED, WELDING_DEFAULT_SPEED);
 	    } else {
 	      model.set(WELDING_SPEED, params);
 	    }
@@ -189,26 +163,6 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 	  public String getWeldingSpeed() {
 	    return model.get(WELDING_SPEED, WELDING_DEFAULT_SPEED);
 	  }
-
-	  private void resetToDefaultWeldingSpeed() {
-	    model.set(WELDING_SPEED, WELDING_DEFAULT_SPEED);
-	  }
-
-//	  public KeyboardTextInput getInputForWeldingSpeedTextField() {
-//	    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-//	    keyboInput.setInitialValue(getWeldingSpeed());
-//	    return keyboInput;
-//	  }
-//
-//	  public KeyboardInputCallback<String> getCallbackForWeldingSpeedTextField() {
-//	    return new KeyboardInputCallback<String>() {
-//	      @Override
-//	      public void onOk(String value) {
-//	        setWeldingSpeed(value);
-//	        view.UpdateWeldingSpeedTextField(value);
-//	      }
-//	    };
-//	  }
 
 	  ////////////////////////////////////////////
 	  // GENERIC
@@ -264,8 +218,7 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 					switch (id) {
 					case "WELDING_JOINT_TYPE":
 						String jointType = view.getSelectedWeldJointType();
-						model.set(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE);
-						setWeldingJointType(jointType);
+						model.set(WELDING_JOINT_TYPE, jointType);
 						break;
 					default:
 						break;

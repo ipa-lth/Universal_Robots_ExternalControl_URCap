@@ -42,6 +42,6 @@ public class IPAControlProgramNodeService extends ExternalControlProgramNodeServ
 	  @Override
 	  public IPAControlProgramNodeContribution createNode(ProgramAPIProvider apiProvider,
 	      IPAControlProgramNodeView view, DataModel model, CreationContext context) {
-	    return new IPAControlProgramNodeContribution(apiProvider, view, model);
+	    return new IPAControlProgramNodeContribution(apiProvider, view, model, context);
 	  }
 }
