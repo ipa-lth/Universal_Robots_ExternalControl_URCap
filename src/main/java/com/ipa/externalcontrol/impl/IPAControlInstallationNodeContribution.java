@@ -1,3 +1,19 @@
+// -- BEGIN LICENSE BLOCK ----------------------------------------------
+// Copyright 2020 Fraunhofer IPA
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// -- END LICENSE BLOCK ------------------------------------------------
+
 package com.ipa.externalcontrol.impl;
 
 import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
@@ -5,18 +21,19 @@ import com.ur.urcap.api.domain.data.DataModel;
 import com.ur.urcap.api.domain.script.ScriptWriter;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputCallback;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
+import com.ipa.externalcontrol.impl.IPACaller;
 
 public class IPAControlInstallationNodeContribution extends ExternalControlInstallationNodeContribution {
 
 	  private final IPAControlInstallationNodeView view;
 
-	  private int instanceCounter = 0;
+	  private int instanceCounter = 0; 
 
-	  private PitascCaller pitascCaller;
-	  private static final String PITASC_PORT_NR = "pitasc_port";
-	  private static final String PITASC_DEFAULT_PORT = "40404";
-	  private static final String PITASC_FILE = "pitasc_file";
-	  private static final String PITASC_DEFAULT_FILE = "default.xml";
+	  private IPACaller ipaCaller;
+	  private static final String IPA_PORT_NR = "pitasc_port";
+	  private static final String IPA_DEFAULT_PORT = "40404";
+	  private static final String IPA_FILE = "pitasc_file";
+	  private static final String IPA_DEFAULT_FILE = "default.xml";
 
 	  public IPAControlInstallationNodeContribution(InstallationAPIProvider apiProvider,
 		      IPAControlInstallationNodeView view, DataModel model) {
@@ -26,9 +43,9 @@ public class IPAControlInstallationNodeContribution extends ExternalControlInsta
 	  
 	  public void generateScript(ScriptWriter writer) {
 		  	super.generateScript(writer);
-		  
-		    pitascCaller = new PitascCaller(getHostIP(), getPitascPort());
-		    pitascCaller.appendInstallationLines(writer, getPitascFile());
+		  	
+		    ipaCaller = new IPACaller(getHostIP(), getIpaPort(), "pitasc_xmlrpc");
+		    ipaCaller.appendInstallationLines(writer, getIpaFile());
 	  }
 	  
 	  // port helper functions
@@ -95,67 +112,67 @@ public class IPAControlInstallationNodeContribution extends ExternalControlInsta
 	  }
 
 	  // port helper functions
-	  public void setPitascPort(String port) {
+	  public void setIpaPort(String port) {
 	    if ("".equals(port)) {
-	      resetToDefaultPitascPort();
+	      resetToDefaultIpaPort();
 	    } else {
-	      super.model.set(PITASC_PORT_NR, port);
+	      super.model.set(IPA_PORT_NR, port);
 	    }
 	  }
 
-	  public String getPitascPort() {
-	    return super.model.get(PITASC_PORT_NR, PITASC_DEFAULT_PORT);
+	  public String getIpaPort() {
+	    return super.model.get(IPA_PORT_NR, IPA_DEFAULT_PORT);
 	  }
 
-	  private void resetToDefaultPitascPort() {
-	    super.model.set(PITASC_PORT_NR, PITASC_DEFAULT_PORT);
+	  private void resetToDefaultIpaPort() {
+	    super.model.set(IPA_PORT_NR, IPA_DEFAULT_PORT);
 	  }
 	  
-	  public KeyboardTextInput getInputForPitascPortTextField() {
+	  public KeyboardTextInput getInputForIpaPortTextField() {
 	    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-	    keyboInput.setInitialValue(getPitascPort());
+	    keyboInput.setInitialValue(getIpaPort());
 	    return keyboInput;
 	  }
 
-	  public KeyboardInputCallback<String> getCallbackForPitascPortTextField() {
+	  public KeyboardInputCallback<String> getCallbackForIpaPortTextField() {
 	    return new KeyboardInputCallback<String>() {
 	      @Override
 	      public void onOk(String value) {
-	        setPitascPort(value);
-	        view.UpdatePitascPortTextField(value);
+	        setIpaPort(value);
+	        view.UpdateIpaPortTextField(value);
 	      }
 	    };
 	  }
 
 	  // port helper functions
-	  public void setPitascFile(String file) {
+	  public void setIpaFile(String file) {
 	    if ("".equals(file)) {
-	      resetToDefaultPitascFile();
+	      resetToDefaultIpaFile();
 	    } else {
-	      super.model.set(PITASC_FILE, file);
+	      super.model.set(IPA_FILE, file);
 	    }
 	  }
 
-	  public String getPitascFile() {
-	    return super.model.get(PITASC_FILE, PITASC_DEFAULT_FILE);
+	  public String getIpaFile() {
+	    return super.model.get(IPA_FILE, IPA_DEFAULT_FILE);
 	  }
 
-	  private void resetToDefaultPitascFile() {
-	    super.model.set(PITASC_FILE, PITASC_DEFAULT_FILE);
+	  private void resetToDefaultIpaFile() {
+	    super.model.set(IPA_FILE, IPA_DEFAULT_FILE);
 	  }
 	  
-	  public KeyboardTextInput getInputForPitascFileTextField() {
+	  public KeyboardTextInput getInputForIpaFileTextField() {
 	    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-	    keyboInput.setInitialValue(getPitascFile());
+	    keyboInput.setInitialValue(getIpaFile());
 	    return keyboInput;
 	  }
 
-	  public KeyboardInputCallback<String> getCallbackForPitascFileTextField() {
+	  public KeyboardInputCallback<String> getCallbackForIpaFileTextField() {
 	    return new KeyboardInputCallback<String>() {
 	      @Override
 	      public void onOk(String value) {
-	        setPitascFile(value);
-	        view.UpdatePitascFileTextField(value);
+	        setIpaFile(value);
+	        view.UpdateIpaFileTextField(value);
 	      }
 	    };
 	  }
@@ -164,8 +181,8 @@ public class IPAControlInstallationNodeContribution extends ExternalControlInsta
 		    return this.instanceCounter++;
 		  }
 
-		  public PitascCaller getPitascCaller() {
-			  return pitascCaller;
+		  public IPACaller getIpaCaller() {
+			  return ipaCaller;
 		  }
 	  
 }

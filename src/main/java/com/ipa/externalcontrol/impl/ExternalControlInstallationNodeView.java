@@ -46,7 +46,7 @@ public class ExternalControlInstallationNodeView
   public ExternalControlInstallationNodeView() {}
 
   public void buildUI(
-      JPanel panel, ExternalControlInstallationNodeContribution contribution) {
+      JPanel panel, final ExternalControlInstallationNodeContribution contribution) {
     panel.add(createIPBox(contribution));
     panel.add(createSpacer(200));
     panel.add(createPortBox(contribution));

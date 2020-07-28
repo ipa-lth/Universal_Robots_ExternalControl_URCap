@@ -47,14 +47,15 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 
 	  @Override
 	  public boolean isDefined() {
-	    return !model.get(PITASC_APP, PITASC_DEFAULT_APP).equals(PITASC_DEFAULT_APP);
+//	    return !model.get(PITASC_APP, PITASC_DEFAULT_APP).equals(PITASC_DEFAULT_APP);
+	  	return !model.get(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE).equals(WELDING_JOINT_TYPE);
 	  }
 
 	  
 	  @Override
 	  public void generateScript(ScriptWriter writer) {
-//	    getInstallation().getPitascCaller().appendNodeLines(writer, getPitascApp(), getPitascParams());
-	  	getInstallation().getPitascCaller().appendNodeLines(writer, getWeldingJointType(), getWeldingSpeed());
+//	    getInstallation().getIpaCaller().appendNodeLines(writer, getPitascApp(), getPitascParams());
+	  	getInstallation().getIpaCaller().appendNodeLines(writer, getWeldingJointType(), getWeldingSpeed());
 
 	    String urScriptProgram = getInstallation().getUrScriptProgram();
 	    String uniqueFunName = "fun_" + getInstallation().IncrementInstanceCounter() + "()";
@@ -63,7 +64,7 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 	    writer.appendLine("end");
 	    writer.appendLine(uniqueFunName);
 
-	    getInstallation().getPitascCaller().appendNodePostLines(writer);
+	    getInstallation().getIpaCaller().appendNodePostLines(writer);
 	  }
 
 	  private IPAControlInstallationNodeContribution getInstallation() {
@@ -193,19 +194,85 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 	    model.set(WELDING_SPEED, WELDING_DEFAULT_SPEED);
 	  }
 
-	  public KeyboardTextInput getInputForWeldingSpeedTextField() {
+//	  public KeyboardTextInput getInputForWeldingSpeedTextField() {
+//	    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
+//	    keyboInput.setInitialValue(getWeldingSpeed());
+//	    return keyboInput;
+//	  }
+//
+//	  public KeyboardInputCallback<String> getCallbackForWeldingSpeedTextField() {
+//	    return new KeyboardInputCallback<String>() {
+//	      @Override
+//	      public void onOk(String value) {
+//	        setWeldingSpeed(value);
+//	        view.UpdateWeldingSpeedTextField(value);
+//	      }
+//	    };
+//	  }
+
+	  ////////////////////////////////////////////
+	  // GENERIC
+	  ////////////////////////////////////////////
+
+	  public KeyboardTextInput getInputForTextField(final String id) {
 	    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-	    keyboInput.setInitialValue(getWeldingSpeed());
+	    
+	    switch (id) {
+	    case "WELDING_SPEED":
+		    keyboInput.setInitialValue(getWeldingSpeed());
+		    break;
+	    case "PITASC_PARAMS":
+	    	keyboInput.setInitialValue(getPitascParams());
+	    	break;
+	    case "PITASC_APP":
+	    	keyboInput.setInitialValue(getPitascApp());
+	    	break;
+	    default:
+	    	keyboInput.setInitialValue("");
+	    }
 	    return keyboInput;
 	  }
 
-	  public KeyboardInputCallback<String> getCallbackForWeldingSpeedTextField() {
+	  public KeyboardInputCallback<String> getCallbackForTextField(final String id) {
 	    return new KeyboardInputCallback<String>() {
 	      @Override
 	      public void onOk(String value) {
-	        setWeldingSpeed(value);
-	        view.UpdateWeldingSpeedTextField(value);
+	      	switch (id) {
+	      	case "WELDING_SPEED":
+		        setWeldingSpeed(value);
+		        view.UpdateWeldingSpeedTextField(value);
+		        break;
+	  	    case "PITASC_PARAMS":
+		        setPitascParams(value);
+		        view.UpdatePitascParamsTextField(value);
+	  	    	break;
+	  	    case "PITASC_APP":
+		        setPitascApp(value);
+		        view.UpdatePitascAppTextField(value);
+	  	    	break;
+	  	    default:
+	  	    	break;
+	      	}
 	      }
 	    };
 	  }
+	  
+		public void onSelection(final String id) {
+			apiProvider.getProgramAPI().getUndoRedoManager().recordChanges(new UndoableChanges() {
+				@Override
+				public void executeChanges() {
+					switch (id) {
+					case "WELDING_JOINT_TYPE":
+						String jointType = view.getSelectedWeldJointType();
+						model.set(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE);
+						setWeldingJointType(jointType);
+						break;
+					default:
+						break;
+					}
+				}
+			});
+		}
+
+
 }

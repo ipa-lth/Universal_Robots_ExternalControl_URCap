@@ -1,3 +1,19 @@
+// -- BEGIN LICENSE BLOCK ----------------------------------------------
+// Copyright 2020 Fraunhofer IPA
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// -- END LICENSE BLOCK ------------------------------------------------
+
 package com.ipa.externalcontrol.impl;
 
 import java.awt.BorderLayout;
@@ -47,24 +63,22 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 
 	  private JComboBox<String> weldjointType = new JComboBox<String>();
 	  private JTextField weldingSpeed = new JTextField(15);
+	  
+	  private UIComponentFactory uiComponentFactory;
 
 	  public IPAControlProgramNodeView(ViewAPIProvider apiProvider) {
 		  super(apiProvider);
+		  uiComponentFactory = new UIComponentFactory(new V5Style());
 	  }
 
 	  @Override
 	  public void buildUI(
 	      JPanel panel, ContributionProvider provider) {
 			panel.setLayout(new GridBagLayout());
-			GridBagConstraints baseConstraints = new GridBagConstraints();
-			baseConstraints.fill = GridBagConstraints.HORIZONTAL;
-			baseConstraints.anchor = GridBagConstraints.NORTH;
-			baseConstraints.insets = new Insets(3,1,3,1);
-			baseConstraints.weightx = 0.5;
 
 			// Inputs
 			// Description
-			GridBagConstraints nodeDescriptionConstraints = (GridBagConstraints)baseConstraints.clone();
+			GridBagConstraints nodeDescriptionConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
 			nodeDescriptionConstraints.gridx = 0;
 			nodeDescriptionConstraints.gridy = 0;
 			nodeDescriptionConstraints.gridwidth = 2;
@@ -74,7 +88,7 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 	    panel.add(infoLabel, nodeDescriptionConstraints);
 	    
 	    // IPA Logo
-			GridBagConstraints logoConstraints = (GridBagConstraints)baseConstraints.clone();
+			GridBagConstraints logoConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
 			logoConstraints.gridx = 0;
 			logoConstraints.gridy = 1;
 			logoConstraints.gridwidth = 2;
@@ -88,50 +102,45 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 			// Joint Type
 
 			// Welding Joint Type 
-			GridBagConstraints jointTypeComboBoxConstraints = (GridBagConstraints)baseConstraints.clone();
+			GridBagConstraints jointTypeComboBoxConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
 			jointTypeComboBoxConstraints.gridx = 0;
 			jointTypeComboBoxConstraints.gridy = 2;
 			jointTypeComboBoxConstraints.gridwidth = 1;
-			jointTypeComboBoxConstraints.anchor = GridBagConstraints.WEST;
-			panel.add(createWeldJointType(provider), jointTypeComboBoxConstraints);
+//			jointTypeComboBoxConstraints.anchor = GridBagConstraints.WEST;
+			panel.add(uiComponentFactory.createComboBox(
+									"WELDING_JOINT_TYPE", "Typ der Schweißnaht: ", weldjointType, new String[]{"Kehlnaht", "Stumpfnaht"}, provider),
+								jointTypeComboBoxConstraints);
 			
 			// Weld Speed
-			GridBagConstraints weldSpeedTextFieldConstraints = (GridBagConstraints) baseConstraints.clone();
+			GridBagConstraints weldSpeedTextFieldConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
 			weldSpeedTextFieldConstraints.gridx = 0;
 			weldSpeedTextFieldConstraints.gridy = 3;
-			weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-			panel.add(createWeldingSpeed(provider), weldSpeedTextFieldConstraints);
+//			weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
+//			panel.add(createWeldingSpeed(provider), weldSpeedTextFieldConstraints);
+			panel.add(uiComponentFactory.createTextInputBox(
+									"WELDING_SPEED", "Robotergeschwindigkeit (mm/min): ", weldingSpeed, "500", provider),
+								weldSpeedTextFieldConstraints);
 
-//
-//			JPanel inputPanel = new JPanel(new BorderLayout());
-//			inputPanel.add(createHeightTextField(provider), BorderLayout.WEST);
-//			inputPanel.add(new JLabel(" "), BorderLayout.CENTER);
-//			inputPanel.add(createEnterValueLabel(), BorderLayout.EAST);
-//
-//			GridBagConstraints heightTextFieldConstraints = (GridBagConstraints)baseConstraints.clone();
-//			heightTextFieldConstraints.gridx = 0;
-//			heightTextFieldConstraints.gridy = 2;
-//			heightTextFieldConstraints.anchor = GridBagConstraints.WEST;
-//			heightTextFieldConstraints.fill = GridBagConstraints.NONE;
-//			panel.add(inputPanel, heightTextFieldConstraints);
-//
-//			GridBagConstraints setInputConstraints = (GridBagConstraints)baseConstraints.clone();
-//			setInputConstraints.gridx = 0;
-//			setInputConstraints.gridy = 3;
-//			setInputConstraints.insets = new Insets(20, 0, 5, 0);
-//			panel.add(createSetInputsLabel(), setInputConstraints);
-//
-//			GridBagConstraints unitsComboConstraints = (GridBagConstraints)baseConstraints.clone();
-//			unitsComboConstraints.gridx = 0;
-//			unitsComboConstraints.gridy = 4;
-//			unitsComboConstraints.anchor = GridBagConstraints.WEST;
-//			unitsComboConstraints.fill = GridBagConstraints.NONE;
-//			panel.add(createUnitsCombo(provider), unitsComboConstraints);		
-			
-			
-			
-			
-			
+			// Pitasc
+//		GridBagConstraints pitascAppConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
+//		pitascAppConstraints.gridx = 0;
+//		pitascAppConstraints.gridy = 4;
+//		pitascAppConstraints.gridwidth = 1;
+////		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
+//			panel.add(uiComponentFactory.createTextInputBox(
+//									"PITASC_APP", "App:       ", jTextFieldApp, "testapp", provider),
+//								pitascAppConstraints);
+//			
+//		GridBagConstraints pitascParamsConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
+//		pitascParamsConstraints.gridx = 0;
+//		pitascParamsConstraints.gridy = 5;
+//  	pitascParamsConstraints.gridwidth = 1;
+////		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
+//			panel.add(uiComponentFactory.createTextInputBox(
+//									"PITASC_PARAMS", "Params: ", jTextFieldParams, "testparam", provider),
+//								pitascParamsConstraints);
+				
+						
 			
 			
 			
@@ -145,11 +154,8 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 			
 		
 //
-////	    panel.add(createInputApp(provider));
-////	    panel.add(createInputParams(provider));
-//			panel.add(createInputWeldingSpeed(provider));
-//			panel.add(createInputStickout(provider));
-//			panel.add(createInputWeldingAngle(provider));
+//	    panel.add(createInputApp(provider));
+//	    panel.add(createInputParams(provider));
 
 			
 	    /*
@@ -173,6 +179,9 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 	     */
 	  }
 	  
+	  //////////////////////////////////////////////////////////////////////////////////////////////
+	  // PITASC
+	  //////////////////////////////////////////////////////////////////////////////////////////////
 	  
 	  private Box createInputApp(final ContributionProvider<IPAControlProgramNodeContribution> provider) {
 		    Box inputBox = Box.createHorizontalBox();
@@ -218,83 +227,76 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 		    inputBox.add(jTextFieldParams);
 		    return inputBox;
 		  }
+
+		  public void UpdatePitascParamsTextField(String value) {
+		    jTextFieldParams.setText(value);
+		  }
+		  		  
 		  
 		  //////////////////////////////////////////////////////////////////////////////////////////////
+		  // KOGROB
 		  //////////////////////////////////////////////////////////////////////////////////////////////
-		  //////////////////////////////////////////////////////////////////////////////////////////////
 		  
 		  
+//		  private Box createWeldingSpeed(final ContributionProvider<IPAControlProgramNodeContribution> provider) {	  	
+//		  	Box inputBox = Box.createHorizontalBox();
+//		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+//				JLabel weldSpeedLabel = new JLabel("Robotergeschwindigkeit (mm/min):  ");
+//				weldSpeedLabel.setFont(new Font("Serif", Font.BOLD, 14));
+////				GridBagConstraints weldSpeedLabelConstraints = (GridBagConstraints) baseConstraints.clone();
+////				weldSpeedLabelConstraints.gridx = 0;
+////				weldSpeedLabelConstraints.gridy = 4;
+////				weldSpeedLabelConstraints.anchor = GridBagConstraints.WEST;
+////				weldSpeedLabelConstraints.fill = GridBagConstraints.NONE;
+//		    inputBox.add(weldSpeedLabel);
+//
+//		    weldingSpeed.setFocusable(false);
+//		  	weldingSpeed.setFont(new Font("Serif", Font.BOLD, 14));
+//		  	weldingSpeed.setText("500");
+////				GridBagConstraints weldSpeedTextFieldConstraints = (GridBagConstraints) baseConstraints.clone();
+////				weldSpeedTextFieldConstraints.gridx = 0;
+////				weldSpeedTextFieldConstraints.gridy = 5;
+////				weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
+//		    weldingSpeed.addMouseListener(new MouseAdapter() {
+//		      @Override
+//		      public void mousePressed(MouseEvent e) {
+//		        KeyboardTextInput keyboardInput = provider.get().getInputForWeldingSpeedTextField();
+//		        keyboardInput.show(weldingSpeed, provider.get().getCallbackForWeldingSpeedTextField());
+//		      }
+//		    });
+//		    weldingSpeed.setText("500");
+//
+//		    inputBox.add(weldingSpeed);
+//		    return inputBox;
+//		  }
+//
+			public void UpdateWeldingSpeedTextField(String value) {
+				weldingSpeed.setText(value);
+			}		  		 
 		  
-		  private Box createWeldingSpeed(final ContributionProvider<IPAControlProgramNodeContribution> provider) {	  	
-		  	Box inputBox = Box.createHorizontalBox();
-		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-				JLabel weldSpeedLabel = new JLabel("Robotergeschwindigkeit (mm/min):  ");
-				weldSpeedLabel.setFont(new Font("Serif", Font.BOLD, 14));
-//				GridBagConstraints weldSpeedLabelConstraints = (GridBagConstraints) baseConstraints.clone();
-//				weldSpeedLabelConstraints.gridx = 0;
-//				weldSpeedLabelConstraints.gridy = 4;
-//				weldSpeedLabelConstraints.anchor = GridBagConstraints.WEST;
-//				weldSpeedLabelConstraints.fill = GridBagConstraints.NONE;
-		    inputBox.add(weldSpeedLabel);
-
-		    weldingSpeed.setFocusable(false);
-		  	weldingSpeed.setFont(new Font("Serif", Font.BOLD, 14));
-		  	weldingSpeed.setText("500");
-//				GridBagConstraints weldSpeedTextFieldConstraints = (GridBagConstraints) baseConstraints.clone();
-//				weldSpeedTextFieldConstraints.gridx = 0;
-//				weldSpeedTextFieldConstraints.gridy = 5;
-//				weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-		    weldingSpeed.addMouseListener(new MouseAdapter() {
-		      @Override
-		      public void mousePressed(MouseEvent e) {
-		        KeyboardTextInput keyboardInput = provider.get().getInputForWeldingSpeedTextField();
-		        keyboardInput.show(weldingSpeed, provider.get().getCallbackForWeldingSpeedTextField());
-		      }
-		    });
-		    weldingSpeed.setText("500");
-
-		    inputBox.add(weldingSpeed);
-		    return inputBox;
-		  }
-
-		  public void UpdateWeldingSpeedTextField(String value) {
-		  	weldingSpeed.setText(value);
-		  }
-		 
-		  
-		  private Box createWeldJointType(final ContributionProvider<IPAControlProgramNodeContribution> provider) {	  	
-		  	Box inputBox = Box.createHorizontalBox();
-		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-				JLabel jointTypeLabel = new JLabel("Typ der Schweißnaht: ");
-				jointTypeLabel.setFont(new Font("Serif", Font.PLAIN, 14));
-//				GridBagConstraints jointTypeLabelConstraints = (GridBagConstraints)baseConstraints.clone();
-//				jointTypeLabelConstraints.gridx = 0;
-//				jointTypeLabelConstraints.gridy = 2;
-//				jointTypeLabelConstraints.anchor = GridBagConstraints.WEST;
-//				jointTypeLabelConstraints.fill = GridBagConstraints.NONE;
-		    inputBox.add(jointTypeLabel);
-				
-				String joint_type_list[] = {"Kehlnaht", "Stumpfnaht"};
-				weldjointType = new JComboBox<String>(joint_type_list);
-				weldjointType.setFont(new Font("Serif", Font.BOLD, 14));
-				weldjointType.setVisible(true);
-//				GridBagConstraints jointTypeComboBoxConstraints = (GridBagConstraints)baseConstraints.clone();
-//				jointTypeComboBoxConstraints.gridx = 0;
-//				jointTypeComboBoxConstraints.gridy = 3;
-//				jointTypeComboBoxConstraints.gridwidth = 1;
-//				jointTypeLabelConstraints.anchor = GridBagConstraints.WEST;
-		    inputBox.add(weldjointType);
-
-		    weldjointType.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent actionEvent) {
-						provider.get().onWeldJointTypeSelection();
-						weldjointType.setFont(new Font("Serif", Font.BOLD, 14));
-					}
-				});
-		    inputBox.add(weldjointType);
-		    return inputBox;
-		  }
+//		  private Box createWeldJointType(final ContributionProvider<IPAControlProgramNodeContribution> provider) {	  	
+//		  	Box inputBox = Box.createHorizontalBox();
+//		    inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+//				JLabel jointTypeLabel = new JLabel("Typ der Schweißnaht: ");
+//				jointTypeLabel.setFont(new Font("Serif", Font.PLAIN, 14));
+//		    inputBox.add(jointTypeLabel);
+//				
+//				String joint_type_list[] = {"Kehlnaht", "Stumpfnaht"};
+//				weldjointType = new JComboBox<String>(joint_type_list);
+//				weldjointType.setFont(new Font("Serif", Font.BOLD, 14));
+//				weldjointType.setVisible(true);
+//		    inputBox.add(weldjointType);
+//
+//		    weldjointType.addActionListener(new ActionListener() {
+//					@Override
+//					public void actionPerformed(ActionEvent actionEvent) {
+//						provider.get().onWeldJointTypeSelection();
+//						weldjointType.setFont(new Font("Serif", Font.BOLD, 14));
+//					}
+//				});
+//		    inputBox.add(weldjointType);
+//		    return inputBox;
+//		  }
 
 			public String getSelectedWeldJointType() {
 				return (String) weldjointType.getSelectedItem();
@@ -304,10 +306,6 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 		  //////////////////////////////////////////////////////////////////////////////////////////////
 		  //////////////////////////////////////////////////////////////////////////////////////////////
 		  
-		  
-		  public void UpdatePitascParamsTextField(String value) {
-		    jTextFieldParams.setText(value);
-		  }
 		  
 		  
 		  @Override

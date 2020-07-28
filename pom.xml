@@ -7,7 +7,7 @@
 
 	<groupId>com.ipa</groupId>
 	<artifactId>externalcontrol</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.0</version>
 	<name>External IPA</name>
 	<packaging>bundle</packaging>
 
