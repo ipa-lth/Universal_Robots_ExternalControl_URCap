@@ -84,7 +84,6 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 			nodeDescriptionConstraints.gridx = 0;
 			nodeDescriptionConstraints.gridy = 0;
 			nodeDescriptionConstraints.gridwidth = 2;
-			nodeDescriptionConstraints.insets = new Insets(10,0,10,0);
 	    super.infoLabel = new JLabel();
 	    super.infoLabel.setFont(new Font("Serif", Font.BOLD, 14));
 	    panel.add(infoLabel, nodeDescriptionConstraints);
@@ -94,110 +93,102 @@ public class IPAControlProgramNodeView extends ExternalControlProgramNodeView
 			logoConstraints.gridx = 0;
 			logoConstraints.gridy = 1;
 			logoConstraints.gridwidth = 2;
-			logoConstraints.insets = new Insets(10,0,10,0);
 			logoConstraints.anchor = GridBagConstraints.EAST;
 	    ImageIcon ipaIcon = new ImageIcon(getClass().getResource("/icons/IPA_logo_small.png"));
 			JLabel ipaIconLabel = new JLabel(ipaIcon);
 			ipaIconLabel.setVisible(true);
 			panel.add(ipaIconLabel);
 	    
-			// Joint Type
-
+			
+			//Kogrob //project_kogrob
 			// Welding Joint Type 
 			GridBagConstraints jointTypeComboBoxConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
 			jointTypeComboBoxConstraints.gridx = 0;
 			jointTypeComboBoxConstraints.gridy = 2;
-			jointTypeComboBoxConstraints.gridwidth = 1;
-//			jointTypeComboBoxConstraints.anchor = GridBagConstraints.WEST;
-			panel.add(uiComponentFactory.createComboBox(
-									"WELDING_JOINT_TYPE", "Typ der Schweißnaht: ", weldjointType, new String[]{"Kehlnaht", "Stumpfnaht"}, provider),
-								jointTypeComboBoxConstraints);
+			panel.add(uiComponentFactory.createComboBox("WELDING_JOINT_TYPE", "Typ der Schweißnaht: ", weldjointType, new String[]{"Kehlnaht", "Stumpfnaht"}, provider),
+					jointTypeComboBoxConstraints);
 			
 			// Weld Speed
 			GridBagConstraints weldSpeedTextFieldConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
 			weldSpeedTextFieldConstraints.gridx = 0;
 			weldSpeedTextFieldConstraints.gridy = 3;
-//			weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-//			panel.add(createWeldingSpeed(provider), weldSpeedTextFieldConstraints);
-			panel.add(uiComponentFactory.createTextInputBox(
-									"WELDING_SPEED", "Robotergeschwindigkeit (mm/min): ", weldingSpeed, "500", provider),
-								weldSpeedTextFieldConstraints);
+			panel.add(uiComponentFactory.createTextInputBox("WELDING_SPEED", "Robotergeschwindigkeit (mm/min): ", weldingSpeed, "500", provider),
+					weldSpeedTextFieldConstraints);
 
-			// Pitasc
-		GridBagConstraints pitascAppConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
-		pitascAppConstraints.gridx = 0;
-		pitascAppConstraints.gridy = 4;
-		pitascAppConstraints.gridwidth = 1;
-//		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-			panel.add(uiComponentFactory.createTextInputBox(
-									"PITASC_APP", "App:       ", jTextFieldApp, "testapp", provider),
-								pitascAppConstraints);
-			
-		GridBagConstraints pitascParamsConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
-		pitascParamsConstraints.gridx = 0;
-		pitascParamsConstraints.gridy = 5;
-  	pitascParamsConstraints.gridwidth = 1;
-//		weldSpeedTextFieldConstraints.anchor = GridBagConstraints.WEST;
-			panel.add(uiComponentFactory.createTextInputBox(
-									"PITASC_PARAMS", "Params: ", jTextFieldParams, "testparam", provider),
-								pitascParamsConstraints);
-				
+			// Pitasc //project_pitasc
+//			GridBagConstraints pitascAppConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
+//			pitascAppConstraints.gridx = 0;
+//			pitascAppConstraints.gridy = 4;
+//			panel.add(uiComponentFactory.createTextInputBox("PITASC_APP", "App:       ", jTextFieldApp, "testapp", provider),
+//					pitascAppConstraints);
+//				
+//			GridBagConstraints pitascParamsConstraints = (GridBagConstraints) uiComponentFactory.baseConstraints.clone();
+//			pitascParamsConstraints.gridx = 0;
+//			pitascParamsConstraints.gridy = 5;
+//				panel.add(uiComponentFactory.createTextInputBox("PITASC_PARAMS", "Params: ", jTextFieldParams, "testparam", provider),
+//						pitascParamsConstraints);
 	  }
 	  
 	  //////////////////////////////////////////////////////////////////////////////////////////////
 	  // PITASC
 	  //////////////////////////////////////////////////////////////////////////////////////////////
 	  
-		  public void UpdatePitascAppTextField(String value) {
-		    jTextFieldApp.setText(value);
-		  }
+	  public void UpdatePitascAppTextField(String value) {
+	  	jTextFieldApp.setText(value);
+		}
 		  
-		  public void UpdatePitascParamsTextField(String value) {
-		    jTextFieldParams.setText(value);
-		  }
+		public void UpdatePitascParamsTextField(String value) {
+		  jTextFieldParams.setText(value);
+		}
 		  		  
 		  
-		  //////////////////////////////////////////////////////////////////////////////////////////////
-		  // KOGROB
-		  //////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////
+		// KOGROB
+		//////////////////////////////////////////////////////////////////////////////////////////////
 		  
 		  
-			public void UpdateWeldingSpeedTextField(String value) {
-				weldingSpeed.setText(value);
-			}		  		 
+		public void UpdateWeldingSpeedTextField(String value) {
+			weldingSpeed.setText(value);
+		}		  		 
 		  
-			public void setWeldJointTypes(String[] jointTypes) {
-				weldjointType.removeAll();
-				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
-				for(String jointType : jointTypes){
-					model.addElement(jointType);
-				}
-				weldjointType.setModel(model);
-				weldjointType.updateUI();
+		public void setWeldJointTypes(String[] jointTypes) {
+			weldjointType.removeAll();
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
+			for(String jointType : jointTypes){
+				model.addElement(jointType);
 			}
+			weldjointType.setModel(model);
+			weldjointType.updateUI();
+		}
+				
+		public String getSelectedWeldJointType() {
+			return (String) weldjointType.getSelectedItem();
+		}
 			
-			
-			public String getSelectedWeldJointType() {
-				return (String) weldjointType.getSelectedItem();
-			}
-			
-			public void setSelectedWeldJointType(String unit) {
-				weldjointType.setSelectedItem(unit);
-			}
+		public void setSelectedWeldJointType(String unit) {
+			weldjointType.setSelectedItem(unit);
+		}
+	
+	  //////////////////////////////////////////////////////////////////////////////////////////////
+	  //////////////////////////////////////////////////////////////////////////////////////////////
+	  //////////////////////////////////////////////////////////////////////////////////////////////
+		  
+		  		  
+		@Override
+		public void updateInfoLabel(String host_ip, String custom_port) {
+		 	// KogRob //project_kogrob
+		  infoLabel.setText("<html><body>"
+				+ "Automatisches Programmieren von Schweißnähten.  <br>"
+		 		+ "Die Netzwerkkonfiguration befindet sich im \"Installation Tab\".  <br>"
+		 		+ "Die folgenden Parameter müssen vor dem Start des Programms gesetzt werden:  "
+		    + "<body><html>");
+		    
+		  // Pitasc //project_pitasc
+//		  infoLabel.setText("<html><body>"
+//		  	+ "Pitasc Pitasc Pitasc.  <br>"
+//		    + "Pitasc Pitasc Pitasc.  <br>"
+//		    + "Pitasc Pitasc Pitasc.  "
+//		    + "<body><html>");
 
-			
-		  //////////////////////////////////////////////////////////////////////////////////////////////
-		  //////////////////////////////////////////////////////////////////////////////////////////////
-		  //////////////////////////////////////////////////////////////////////////////////////////////
-		  
-		  
-		  
-		  @Override
-		  public void updateInfoLabel(String host_ip, String custom_port) {
-		    infoLabel.setText("<html><body>"
-		    		+ "Automatisches Programmieren von Schweißnähten.  <br>"
-		    		+ "Die Netzwerkkonfiguration befindet sich im \"Installation Tab\".  <br>"
-		    		+ "Die folgenden Parameter müssen vor dem Start des Programms gesetzt werden:  "
-		        + "<body><html>");
-		  }
+		}
 }

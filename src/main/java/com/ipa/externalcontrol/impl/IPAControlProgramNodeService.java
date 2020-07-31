@@ -31,7 +31,8 @@ public class IPAControlProgramNodeService extends ExternalControlProgramNodeServ
 
 	  @Override
 	  public String getTitle(Locale locale) {
-		    return "KogRob Testbed 2 Self-Optimzing CPRs";
+//	  	return "External Pitasc"; //project_pitasc
+		    return "KogRob Testbed 2 Self-Optimzing CPRs"; //project_kogrob
 	  }
 	  
 	  @Override

@@ -72,21 +72,22 @@ public class IPAControlProgramNodeContribution extends ExternalControlProgramNod
 	  
 	  @Override
 	  public String getTitle() {
-//	    return "pitasc: " + getPitascApp();
-	  	return "IPA: KogRob";
+//	    return "pitasc: " + getPitascApp(); // project_pitasc
+	  	return "IPA: KogRob"; //project_kogrob
 	  }
 
 	  @Override
 	  public boolean isDefined() {
-//	    return !model.get(PITASC_APP, PITASC_DEFAULT_APP).equals(PITASC_DEFAULT_APP);
-	  	return !model.get(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE).equals(WELDING_JOINT_TYPE);
+//	    return !model.get(PITASC_APP, PITASC_DEFAULT_APP).equals(PITASC_DEFAULT_APP); //project_pitasc
+	  	return !model.get(WELDING_JOINT_TYPE, WELDING_DEFAULT_JOINT_TYPE).equals(WELDING_JOINT_TYPE); //project_kogrob
 	  }
 
 	  
 	  @Override
 	  public void generateScript(ScriptWriter writer) {
-//	    getInstallation().getIpaCaller().appendNodeLines(writer, getPitascApp(), getPitascParams());
-	  	getInstallation().getIpaCaller().appendNodeLines(writer, getWeldingJointType(), getWeldingSpeed());
+//	  	String[] param_string = new String[] {getPitascApp(), getPitascParams()}; //project_pitasc
+	  	String[] param_string = new String[] {getWeldingJointType(), getWeldingSpeed()}; //project_kogrob
+	  	getInstallation().getIpaCaller().appendNodeLines(writer, param_string); 
 
 	    String urScriptProgram = getInstallation().getUrScriptProgram();
 	    String uniqueFunName = "fun_" + getInstallation().IncrementInstanceCounter() + "()";

@@ -44,12 +44,19 @@ public class IPACaller {
 	    writer.assign("load_resp", XMLRPC_VARIABLE + ".load_file(\"" + file + "\")");
 	  }
 
-	  public void appendNodeLines(ScriptWriter writer, String app, String param) {
+	  public void appendNodeLines(ScriptWriter writer, String[] xmlrpc_params) {
+	  	String xmlrpc_param_string = "\"";
+	  	for (String xmlrpc_param : xmlrpc_params) {
+	  		xmlrpc_param_string += xmlrpc_param + "\",\"";
+	  	}
+	  	xmlrpc_param_string = xmlrpc_param_string.substring(0, xmlrpc_param_string.length() - 2);
+	  	
 	    this.instanceCnt++;
 	    writer.appendLine("thread startApp_" + this.instanceCnt + "():");
-	    writer.appendLine("  textmsg(\"Start pitasc app thread.\")");
-	    writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\",\"" + param + "\")");
-	    writer.appendLine("  textmsg(\"Stopped pitasc app thread.\")");
+	    writer.appendLine("  textmsg(\"Start ipa app thread.\")");
+//	    writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(\"" + app + "\",\"" + param + "\")");
+	    writer.assign("  app_resp", XMLRPC_VARIABLE + ".start_app(" + xmlrpc_param_string + ")");
+	    writer.appendLine("  textmsg(\"Stopped ipa app thread.\")");
 	    writer.appendLine("  textmsg(app_resp)");
 	    //TODO: read return value and "blocking popup" if it is not "succeeded"
 	    writer.appendLine("  if app_resp != \"succeeded\":");

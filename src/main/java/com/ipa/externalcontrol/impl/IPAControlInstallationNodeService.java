@@ -32,7 +32,8 @@ public class IPAControlInstallationNodeService extends ExternalControlInstallati
 	
 	  @Override
 	  public String getTitle(Locale locale) {
-		    return "Kogrob Testbed 2 Self-Optimzing CPRs";
+//	      return "External Pitasc"; // project_pitasc
+		    return "Kogrob Testbed 2 Self-Optimzing CPRs"; // project_kogrob
 		  }
 	  @Override
 	  public IPAControlInstallationNodeView createView(ViewAPIProvider apiProvider) {
