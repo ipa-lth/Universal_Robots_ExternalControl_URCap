@@ -23,7 +23,7 @@
  */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import com.ur.urcap.api.contribution.InstallationNodeContribution;
 import com.ur.urcap.api.contribution.installation.InstallationAPIProvider;
@@ -34,25 +34,17 @@ import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputFactory;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
 public class ExternalControlInstallationNodeContribution implements InstallationNodeContribution {
-  private static final String HOST_IP = "host_ip";
-  private static final String PORT_NR = "port_nr";
-  private static final String NAME = "name";
-  private String urScriptProgram = "";
-  private static final String DEFAULT_IP = "192.168.56.1";
-  private static final String DEFAULT_PORT = "50002";
-  private static final String DEFAULT_NAME = DEFAULT_IP;
-  private DataModel model;
-  private final ExternalControlInstallationNodeView view;
-  private final KeyboardInputFactory keyboardFactory;
-  private int instanceCounter = 0;
+  protected static final String HOST_IP = "host_ip";
+  protected static final String PORT_NR = "port_nr";
+  protected static final String NAME = "name";
+  protected String urScriptProgram = "";
+  protected static final String DEFAULT_IP = "192.168.56.1";
+  protected static final String DEFAULT_PORT = "50002";
+  protected static final String DEFAULT_NAME = DEFAULT_IP;
+  protected DataModel model;
+  protected final ExternalControlInstallationNodeView view;
+  protected final KeyboardInputFactory keyboardFactory;
 
-  private PitascCaller pitascCaller;
-  private static final String PITASC_PORT_NR = "pitasc_port";
-  private static final String PITASC_DEFAULT_PORT = "40404";
-  private static final String PITASC_FILE = "pitasc_file";
-  private static final String PITASC_DEFAULT_FILE = "default.xml";
-
- 
   public ExternalControlInstallationNodeContribution(InstallationAPIProvider apiProvider,
       ExternalControlInstallationNodeView view, DataModel model) {
     this.keyboardFactory =
@@ -75,9 +67,6 @@ public class ExternalControlInstallationNodeContribution implements Installation
   public void generateScript(ScriptWriter writer) {
     RequestProgram sender = new RequestProgram(getHostIP(), getCustomPort());
     urScriptProgram = sender.sendCommand("request_program\n");
-
-    pitascCaller = new PitascCaller(getHostIP(), getPitascPort());
-    pitascCaller.appendInstallationLines(writer, getPitascFile());
   }
 
   // IP helper functions
@@ -179,81 +168,7 @@ public class ExternalControlInstallationNodeContribution implements Installation
     };
   }
 
-  // port helper functions
-  public void setPitascPort(String port) {
-    if ("".equals(port)) {
-      resetToDefaultPitascPort();
-    } else {
-      model.set(PITASC_PORT_NR, port);
-    }
-  }
-
-  public String getPitascPort() {
-    return model.get(PITASC_PORT_NR, PITASC_DEFAULT_PORT);
-  }
-
-  private void resetToDefaultPitascPort() {
-    model.set(PITASC_PORT_NR, PITASC_DEFAULT_PORT);
-  }
-  
-  public KeyboardTextInput getInputForPitascPortTextField() {
-    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-    keyboInput.setInitialValue(getPitascPort());
-    return keyboInput;
-  }
-
-  public KeyboardInputCallback<String> getCallbackForPitascPortTextField() {
-    return new KeyboardInputCallback<String>() {
-      @Override
-      public void onOk(String value) {
-        setPitascPort(value);
-        view.UpdatePitascPortTextField(value);
-      }
-    };
-  }
-
-  // port helper functions
-  public void setPitascFile(String file) {
-    if ("".equals(file)) {
-      resetToDefaultPitascFile();
-    } else {
-      model.set(PITASC_FILE, file);
-    }
-  }
-
-  public String getPitascFile() {
-    return model.get(PITASC_FILE, PITASC_DEFAULT_FILE);
-  }
-
-  private void resetToDefaultPitascFile() {
-    model.set(PITASC_FILE, PITASC_DEFAULT_FILE);
-  }
-  
-  public KeyboardTextInput getInputForPitascFileTextField() {
-    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-    keyboInput.setInitialValue(getPitascFile());
-    return keyboInput;
-  }
-
-  public KeyboardInputCallback<String> getCallbackForPitascFileTextField() {
-    return new KeyboardInputCallback<String>() {
-      @Override
-      public void onOk(String value) {
-        setPitascFile(value);
-        view.UpdatePitascFileTextField(value);
-      }
-    };
-  }
-  
   public String getUrScriptProgram() {
     return urScriptProgram;
-  }
-  
-  public int IncrementInstanceCounter() {
-    return this.instanceCounter++;
-  }
-
-  public PitascCaller getPitascCaller() {
-	  return pitascCaller;
   }
 }

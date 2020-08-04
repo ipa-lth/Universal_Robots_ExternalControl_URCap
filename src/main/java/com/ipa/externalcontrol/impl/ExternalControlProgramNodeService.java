@@ -23,7 +23,7 @@
 */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import java.util.Locale;
 
@@ -34,30 +34,23 @@ import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
 import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeService;
 import com.ur.urcap.api.domain.data.DataModel;
 
-public class ExternalControlProgramNodeService
-    implements SwingProgramNodeService<ExternalControlProgramNodeContribution,
-        ExternalControlProgramNodeView> {
-  @Override
+public class ExternalControlProgramNodeService {
   public String getId() {
     return "ExternalControlNode";
   }
 
-  @Override
   public void configureContribution(ContributionConfiguration configuration) {
     configuration.setChildrenAllowed(false);
   }
 
-  @Override
   public String getTitle(Locale locale) {
-    return "External Pitasc";
+    return "External Control";
   }
 
-  @Override
   public ExternalControlProgramNodeView createView(ViewAPIProvider apiProvider) {
-    return new ExternalControlProgramNodeView();
+    return new ExternalControlProgramNodeView(apiProvider);
   }
 
-  @Override
   public ExternalControlProgramNodeContribution createNode(ProgramAPIProvider apiProvider,
       ExternalControlProgramNodeView view, DataModel model, CreationContext context) {
     return new ExternalControlProgramNodeContribution(apiProvider, view, model);

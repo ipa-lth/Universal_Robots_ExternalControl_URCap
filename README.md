@@ -16,3 +16,7 @@ To enable external control of a UR robot from a remote PC, this URcap must be in
 	* Add this URcap to a program by selecting it from the side menu under the tab _URcap_.
 	* Execute the program by pressing the _play_ button in the _Program_ tab of Polyscope.
 
+## troubleshooting
+
+- make sure to have all paths and usernames updated in pom.xml
+- Build instruction: mvn install -P ursim (ursim is a variable defined in pom.xml)

@@ -23,7 +23,7 @@
  */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -36,9 +36,9 @@ public class Activator implements BundleActivator {
   public void start(BundleContext bundleContext) throws Exception {
     System.out.println("URcap enabling external control registering!");
     bundleContext.registerService(
-        SwingInstallationNodeService.class, new ExternalControlInstallationNodeService(), null);
+        SwingInstallationNodeService.class, new IPAControlInstallationNodeService(), null);
     bundleContext.registerService(
-        SwingProgramNodeService.class, new ExternalControlProgramNodeService(), null);
+        SwingProgramNodeService.class, new IPAControlProgramNodeService(), null);
   }
 
   @Override

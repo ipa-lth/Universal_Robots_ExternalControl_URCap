@@ -23,7 +23,7 @@
 */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import com.ur.urcap.api.contribution.ViewAPIProvider;
 import com.ur.urcap.api.contribution.installation.ContributionConfiguration;
@@ -35,24 +35,19 @@ import com.ur.urcap.api.domain.data.DataModel;
 import java.util.Locale;
 
 public class ExternalControlInstallationNodeService
-    implements SwingInstallationNodeService<ExternalControlInstallationNodeContribution,
-        ExternalControlInstallationNodeView> {
-  @Override
+     {
   public void configureContribution(ContributionConfiguration configuration) {
     // TODO Auto-generated method stub
   }
 
-  @Override
   public String getTitle(Locale locale) {
-    return "External Pitasc";
+    return "External Control";
   }
 
-  @Override
   public ExternalControlInstallationNodeView createView(ViewAPIProvider apiProvider) {
     return new ExternalControlInstallationNodeView();
   }
 
-  @Override
   public ExternalControlInstallationNodeContribution createInstallationNode(
       InstallationAPIProvider installationApiProvider, ExternalControlInstallationNodeView view,
       DataModel model, CreationContext context) {

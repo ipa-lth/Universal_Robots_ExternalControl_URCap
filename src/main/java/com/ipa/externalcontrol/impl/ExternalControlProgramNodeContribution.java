@@ -23,7 +23,7 @@
 */
 //----------------------------------------------------------------------
 
-package com.fzi.externalcontrol.impl;
+package com.ipa.externalcontrol.impl;
 
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
@@ -37,24 +37,18 @@ import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputFactory;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 
 public class ExternalControlProgramNodeContribution implements ProgramNodeContribution {
-  private static final String ADVANCED_PARAM_KEY = "showadvancedparam";
-  private static final boolean ADVANCED_PARAM_DEFAULT = false;
-  private static final String MAX_LOST_PACKAGES = "maxlostpackages";
-  private static final String MAX_LOST_PACKAGES_DEFAULT_VALUE = "1000";
-  private static final String GAIN_SERVO_J = "gain_servo_j";
-  private static final String GAIN_SERVO_J_DEFAULT_VALUE = "0";
-  private final ProgramAPI programAPI;
-  private final DataModel model;
-  private final ExternalControlProgramNodeView view;
-  private final KeyboardInputFactory keyboardFactory;
-  private final UndoRedoManager undoRedoManager;
+  protected static final String ADVANCED_PARAM_KEY = "showadvancedparam";
+  protected static final boolean ADVANCED_PARAM_DEFAULT = false;
+  protected static final String MAX_LOST_PACKAGES = "maxlostpackages";
+  protected static final String MAX_LOST_PACKAGES_DEFAULT_VALUE = "1000";
+  protected static final String GAIN_SERVO_J = "gain_servo_j";
+  protected static final String GAIN_SERVO_J_DEFAULT_VALUE = "0";
+  protected final ProgramAPI programAPI;
+  protected final DataModel model;
+  protected final ExternalControlProgramNodeView view;
+  protected final KeyboardInputFactory keyboardFactory;
+  protected final UndoRedoManager undoRedoManager;
 
-  private static final String PITASC_APP = "pitascapp";
-  private static final String PITASC_DEFAULT_APP = "<undefined>";
-
-  private static final String PITASC_PARAMS = "pitascparams";
-  private static final String PITASC_DEFAULT_PARAMS = "";
-  
   public ExternalControlProgramNodeContribution(
       ProgramAPIProvider apiProvider, ExternalControlProgramNodeView view, DataModel model) {
     this.programAPI = apiProvider.getProgramAPI();
@@ -68,8 +62,6 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
   @Override
   public void openView() {
     view.updateInfoLabel(getInstallation().getHostIP(), getInstallation().getCustomPort());
-    view.UpdatePitascAppTextField(getPitascApp());
-    view.UpdatePitascParamsTextField(getPitascParams());
   }
 
   @Override
@@ -77,26 +69,18 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
 
   @Override
   public String getTitle() {
-    return "pitasc: " + getPitascApp();
+    return "Control by " + getInstallation().getName();
   }
 
   @Override
   public boolean isDefined() {
-    return !model.get(PITASC_APP, PITASC_DEFAULT_APP).equals(PITASC_DEFAULT_APP);
+    return true;
   }
 
   @Override
   public void generateScript(ScriptWriter writer) {
-    getInstallation().getPitascCaller().appendNodeLines(writer, getPitascApp(), getPitascParams());
-
     String urScriptProgram = getInstallation().getUrScriptProgram();
-    String uniqueFunName = "fun_" + getInstallation().IncrementInstanceCounter() + "()";
-    writer.appendLine("def " + uniqueFunName + ":");
     writer.appendRaw(urScriptProgram);
-    writer.appendLine("end");
-    writer.appendLine(uniqueFunName);
-
-    getInstallation().getPitascCaller().appendNodePostLines(writer);
   }
 
   private ExternalControlInstallationNodeContribution getInstallation() {
@@ -177,71 +161,6 @@ public class ExternalControlProgramNodeContribution implements ProgramNodeContri
       public void onOk(String value) {
         setParam(GAIN_SERVO_J, value, GAIN_SERVO_J_DEFAULT_VALUE);
         view.updateGainServoj_TF(value);
-      }
-    };
-  }
-
-  // port helper functions
-  public void setPitascApp(String app) {
-    if ("".equals(app)) {
-      resetToDefaultPitascApp();
-    } else {
-      model.set(PITASC_APP, app);
-    }
-  }
-
-  public String getPitascApp() {
-    return model.get(PITASC_APP, PITASC_DEFAULT_APP);
-  }
-
-  private void resetToDefaultPitascApp() {
-    model.set(PITASC_APP, PITASC_DEFAULT_APP);
-  }
-  
-  public KeyboardTextInput getInputForPitascAppTextField() {
-    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-    keyboInput.setInitialValue(getPitascApp());
-    return keyboInput;
-  }
-
-  public KeyboardInputCallback<String> getCallbackForPitascAppTextField() {
-    return new KeyboardInputCallback<String>() {
-      @Override
-      public void onOk(String value) {
-        setPitascApp(value);
-        view.UpdatePitascAppTextField(value);
-      }
-    };
-  }
-
-  public void setPitascParams(String params) {
-    if ("".equals(params)) {
-      resetToDefaultPitascParams();
-    } else {
-      model.set(PITASC_PARAMS, params);
-    }
-  }
-
-  public String getPitascParams() {
-    return model.get(PITASC_PARAMS, PITASC_DEFAULT_PARAMS);
-  }
-
-  private void resetToDefaultPitascParams() {
-    model.set(PITASC_PARAMS, PITASC_DEFAULT_PARAMS);
-  }
-
-  public KeyboardTextInput getInputForPitascParamsTextField() {
-    KeyboardTextInput keyboInput = keyboardFactory.createStringKeyboardInput();
-    keyboInput.setInitialValue(getPitascParams());
-    return keyboInput;
-  }
-
-  public KeyboardInputCallback<String> getCallbackForPitascParamsTextField() {
-    return new KeyboardInputCallback<String>() {
-      @Override
-      public void onOk(String value) {
-        setPitascParams(value);
-        view.UpdatePitascParamsTextField(value);
       }
     };
   }
